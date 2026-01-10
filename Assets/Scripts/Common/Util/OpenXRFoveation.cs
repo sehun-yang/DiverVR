@@ -88,7 +88,6 @@ public class OpenXRFoveation : MonoBehaviour
                 var callbacks = new PermissionCallbacks();
                 callbacks.PermissionDenied += PermissionCallbacks_PermissionDenied;
                 callbacks.PermissionGranted += PermissionCallbacks_PermissionGranted;
-                callbacks.PermissionDeniedAndDontAskAgain += PermissionCallbacks_PermissionDeniedAndDontAskAgain;
                 Permission.RequestUserPermission(eyeTrackingPermission, callbacks);
 #else
                 Permission.RequestUserPermission(eyeTrackingPermission);

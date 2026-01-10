@@ -54,8 +54,6 @@ public class EnemyManager : MonoBehaviour
 
         float deltaTime = Time.deltaTime;
 
-        ExtractFrustumPlanes();
-
         foreach (var kvp in flockGroups)
         {
             var group = kvp.Value;
@@ -64,19 +62,14 @@ public class EnemyManager : MonoBehaviour
             UpdateFlockGroup(group, deltaTime);
         }
 
-        UpdateDebugInfo();
-    }
-
-    private void LateUpdate()
-    {
-        if (!initialized) return;
+        ExtractFrustumPlanes();
 
         foreach (var kvp in flockGroups)
         {
             var group = kvp.Value;
             if (group.Count == 0) continue;
 
-            RenderFlockGroup(group);
+            CullAndRenderFlockGroup(group);
         }
     }
 
@@ -106,24 +99,22 @@ public class EnemyManager : MonoBehaviour
             DeltaTime = deltaTime
         };
 
-        var animHandle = animJob.Schedule(count, 64, flockHandle);
-
-        var cullingJob = new FrustumCullingJob
-        {
-            Enemies = enemies.AsArray(),
-            FrustumPlanes = frustumPlanes
-        };
-
-        var cullingHandle = cullingJob.Schedule(count, 64, animHandle);
-        cullingHandle.Complete();
+        animJob.Schedule(count, 64, flockHandle).Complete();
 
         readOnlyCopy.Dispose();
     }
 
-    private void RenderFlockGroup(FlockGroup group)
+    private void CullAndRenderFlockGroup(FlockGroup group)
     {
         int count = group.Count;
         if (count == 0) return;
+
+        var cullingJob = new FrustumCullingJob
+        {
+            Enemies = group.Enemies.AsArray(),
+            FrustumPlanes = frustumPlanes
+        };
+        cullingJob.Schedule(count, 64).Complete();
 
         group.EnsureCapacity(count);
 
@@ -136,7 +127,6 @@ public class EnemyManager : MonoBehaviour
             AnimationData = group.AnimationData,
             VisibleCount = visibleCountRef
         };
-
         collectJob.Schedule().Complete();
 
         int visibleCount = visibleCountRef.Value;
@@ -317,24 +307,6 @@ public class EnemyManager : MonoBehaviour
     {
         flockGroups.TryGetValue(groupId, out var group);
         return group;
-    }
-
-    private void UpdateDebugInfo()
-    {
-        totalEnemyCount = 0;
-        visibleEnemyCount = 0;
-
-        foreach (var kvp in flockGroups)
-        {
-            var group = kvp.Value;
-            totalEnemyCount += group.Count;
-
-            for (int i = 0; i < group.Count; i++)
-            {
-                if (group.Enemies[i].IsVisible == 1)
-                    visibleEnemyCount++;
-            }
-        }
     }
 
     private void OnDestroy()

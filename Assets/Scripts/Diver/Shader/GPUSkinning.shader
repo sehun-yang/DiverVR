@@ -22,6 +22,7 @@ Shader "Custom/GPUSkinning"
         {
             Name "ForwardLit"
             Tags { "LightMode" = "UniversalForward" }
+            ZWrite On
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -197,7 +198,7 @@ Shader "Custom/GPUSkinning"
                 if (animTime > 0)
                 {
                     float4 skinnedPos = SkinPosition(v.vertex, v.vertexId, animTime, clipIndex);
-                    float3 skinnedNormal = SkinNormal(v.normal, v.vertexId, animTime, clipIndex);
+                    float3 skinnedNormal = normalize(SkinNormal(v.normal, v.vertexId, animTime, clipIndex));
 
                     o.pos = TransformObjectToHClip(skinnedPos.xyz);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
