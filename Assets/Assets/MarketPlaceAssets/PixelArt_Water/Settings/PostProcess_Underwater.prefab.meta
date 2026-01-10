@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7cbc30fa049c2df41ae27a4a9ecd1790
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 322040
+  packageName: Water Pixel Art
+  packageVersion: 1.0
+  assetPath: Assets/PixelArt_Water/Settings/PostProcess_Underwater.prefab
+  uploadId: 808942

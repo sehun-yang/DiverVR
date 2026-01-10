@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bcddbf237feda74886ea8ae33f09e98, type: 3}
+  m_Name: FishA
+  m_EditorClassIdentifier: Assembly-CSharp::BakedAnimationAsset
+  atlasTexture: {fileID: 2800000, guid: 8687f2cca84672d4697cad68c084ff75, type: 2}
+  boneCount: 7
+  clips:
+  - startFrame: 0
+    frameCount: 30
+    duration: 0.96666664

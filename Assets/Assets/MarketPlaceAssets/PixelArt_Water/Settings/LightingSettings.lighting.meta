@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 71ab711eae2c778449b80c71eaf1b19a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 322040
+  packageName: Water Pixel Art
+  packageVersion: 1.0
+  assetPath: Assets/PixelArt_Water/Settings/LightingSettings.lighting
+  uploadId: 808942
