@@ -48,7 +48,7 @@ public class EnemyManager : MonoBehaviour
         initialized = true;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!initialized || flockGroups.Count == 0) return;
 
