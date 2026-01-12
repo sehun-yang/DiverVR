@@ -126,7 +126,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Offset: 1
-    - _OverlayOpacity: 0.5
+    - _OverlayOpacity: 0.3
     - _Parallax: 0.005
     - _Power: 2
     - _PowerDistortion: 0.01
