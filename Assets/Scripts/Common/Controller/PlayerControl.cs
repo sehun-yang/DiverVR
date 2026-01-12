@@ -111,7 +111,7 @@ public class PlayerControl : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (HasInputAuthority)
+        if (HasStateAuthority)
         {
             var inverseRotation = Quaternion.Inverse(transform.rotation);
             RelativePositionControl.Instance.StartControl(gameObject, inverseRotation * _tipLeft.rotation, inverseRotation * _tipRight.rotation);
@@ -222,7 +222,7 @@ public class PlayerControl : NetworkBehaviour
 
     public void FixedUpdate()
     {
-        if (HasInputAuthority)
+        if (HasStateAuthority)
         {
             UpdateMyFinger();
         }
@@ -234,7 +234,7 @@ public class PlayerControl : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (HasInputAuthority)
+        if (HasStateAuthority)
         {
             CharacterPosition = transform.position;
             CharacterRotation = transform.rotation;
