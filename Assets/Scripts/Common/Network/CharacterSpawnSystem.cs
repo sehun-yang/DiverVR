@@ -6,12 +6,16 @@ public class CharacterSpawnSystem : SingletonMonoBehaviour<CharacterSpawnSystem>
     [SerializeField] private Vector3 initialSpawnPosition;
     [SerializeField] private GameObject characterPrefab;
 
+    public GameObject myCharacter;
+
     public void SpawnPlayer(PlayerRef player)
     {
-        if (player == MainServer.ActiveRunner.LocalPlayer)
+        if (player == MainServer.ActiveRunner.LocalPlayer && myCharacter == null)
         {
             var currentCharacter = MainServer.ActiveRunner.Spawn(characterPrefab, initialSpawnPosition, Quaternion.identity, player);
             MainServer.ActiveRunner.SetPlayerObject(player, currentCharacter);
+
+            myCharacter = currentCharacter.gameObject;
         }
     }
 

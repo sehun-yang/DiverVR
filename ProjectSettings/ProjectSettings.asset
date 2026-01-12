@@ -841,7 +841,7 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;PHOTON_VOICE_DEFINED
+    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;PHOTON_VOICE_DEFINED;FUSION_WEAVER;FUSION2;FUSION_2;FUSION_2_0;FUSION_2_0_9;FUSION_2_OR_NEWER;FUSION_2_0_OR_NEWER;FUSION_LOGLEVEL_INFO
     EmbeddedLinux: PHOTON_VOICE_DEFINED
     GameCoreScarlett: PHOTON_VOICE_DEFINED
     GameCoreXboxOne: PHOTON_VOICE_DEFINED
@@ -871,7 +871,7 @@ PlayerSettings:
   suppressCommonWarnings: 1
   allowUnsafeCode: 1
   useDeterministicCompilation: 1
-  additionalIl2CppArgs: --compiler-flags="     -flto=thin"
+  additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
   gcWBarrierValidation: 0
