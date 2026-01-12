@@ -76,6 +76,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7bd109c11b5604771a3b827bbe2b2603, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1229525497829865006, guid: 7bd109c11b5604771a3b827bbe2b2603, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -636,7 +640,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &8206530098635362964
@@ -646,7 +650,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8011644474896373166}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 04ae4394008b6f949bc67bfd83620cfb, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -899,11 +903,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
   _CharacterPosition: {x: 0, y: 0, z: 0}
-  _CharacterRotation: {x: 0, y: 0, z: 0, w: 0}
   _LHPosition: {x: 0, y: 0, z: 0}
-  _LHRotation: {x: 0, y: 0, z: 0, w: 0}
   _RHPosition: {x: 0, y: 0, z: 0}
-  _RHRotation: {x: 0, y: 0, z: 0, w: 0}
   _LeftHandIndex:
     _value: 0
   _LeftHandPinky:

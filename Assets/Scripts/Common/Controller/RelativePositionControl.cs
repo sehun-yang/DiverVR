@@ -247,15 +247,23 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
 
     public void StartControl(GameObject playerRig, Quaternion leftRotationOffset, Quaternion rightRotationOffset)
     {
+        RigControl.Instance.transform.parent = playerRig.transform;
+        RigControl.Instance.transform.localPosition = Vector3.zero;
+
         character = playerRig.transform;
         characterRigidbody = playerRig.GetComponent<Rigidbody>();
         characterCollider = playerRig.GetComponent<CapsuleCollider>();
+        var playerControl = playerRig.GetComponent<PlayerControl>();
 
         initialHandsRotations[HandsDirection.Left] = leftRotationOffset;
         initialHandsRotations[HandsDirection.Right] = rightRotationOffset;
+        
+        playerControl.LeftIK.data.target = _reference[0];
+        playerControl.RightIK.data.target = _reference[1];
+        playerControl.RigBuilder.Build();
 
-        armOriginOffset[HandsDirection.Left] = Vector3.zero; // playerControl.ArmLeftOriginOffset;
-        armOriginOffset[HandsDirection.Right] = Vector3.zero; // playerControl.ArmRightOriginOffset;
+        armOriginOffset[HandsDirection.Left] = playerControl.ArmLeftOriginOffset;
+        armOriginOffset[HandsDirection.Right] = playerControl.ArmRightOriginOffset;
 
         Initialize();
 

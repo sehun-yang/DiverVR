@@ -8,19 +8,29 @@ public readonly struct HalfQuaternion : INetworkStruct
     public readonly Half x;
     public readonly Half y;
     public readonly Half z;
-    public readonly Half w;
 
     public HalfQuaternion(Quaternion q)
     {
+        if (q.w < 0)
+        {
+            q = new Quaternion(-q.x, -q.y, -q.z, -q.w);
+        }
+
         x = (Half)q.x;
         y = (Half)q.y;
         z = (Half)q.z;
-        w = (Half)q.w;
     }
 
     public readonly Quaternion ToQuaternion()
     {
-        return new Quaternion((float)x, (float)y, (float)z, (float)w);
+        float fx = (float)x;
+        float fy = (float)y;
+        float fz = (float)z;
+        
+        float sumSquares = fx * fx + fy * fy + fz * fz;
+        float fw = sumSquares >= 1.0f ? 0.0f : Mathf.Sqrt(1.0f - sumSquares);
+        
+        return new Quaternion(fx, fy, fz, fw);
     }
 
     public static implicit operator HalfQuaternion(Quaternion q)

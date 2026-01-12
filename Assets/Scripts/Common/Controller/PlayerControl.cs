@@ -10,13 +10,13 @@ using UnityEngine.Audio;
 public class PlayerControl : NetworkBehaviour
 {
     [Networked] public Vector3 CharacterPosition {get; set;}
-    [Networked] public Quaternion CharacterRotation {get; set;}
+    [Networked] public HalfQuaternion CharacterRotation {get; set;}
 
     [Networked] public Vector3 LHPosition {get; set;}
-    [Networked] public Quaternion LHRotation {get; set;}
+    [Networked] public HalfQuaternion LHRotation {get; set;}
 
     [Networked] public Vector3 RHPosition {get; set;}
-    [Networked] public Quaternion RHRotation { get; set; }
+    [Networked] public HalfQuaternion RHRotation { get; set; }
 
     [Networked] public NetworkBool LeftHandIndex { get; set; }
     [Networked] public NetworkBool LeftHandPinky { get; set; }
@@ -74,7 +74,6 @@ public class PlayerControl : NetworkBehaviour
 
     private GameObject leftHandTransform;
     private GameObject rightHandTransform;
-    private MaterialPropertyBlock materialPropertyBlock;
     private float lastMicVolume = 0;
 
     public Rigidbody BodyRigidbody => _bodyRigidbody;
@@ -115,9 +114,8 @@ public class PlayerControl : NetworkBehaviour
         if (HasInputAuthority)
         {
             var inverseRotation = Quaternion.Inverse(transform.rotation);
-            //EventBus.MyCharacterSpawned(gameObject, inverseRotation * _tipLeft.rotation, inverseRotation * _tipRight.rotation);
+            RelativePositionControl.Instance.StartControl(gameObject, inverseRotation * _tipLeft.rotation, inverseRotation * _tipRight.rotation);
             _poseDriver.enabled = true;
-            //_poseDriver.SetXZRotationReceiver(headInstance.transform);
 
             _leftHandCollider.enabled = true;
             _rightHandCollider.enabled = true;
@@ -147,11 +145,6 @@ public class PlayerControl : NetworkBehaviour
             _rightIK.data.target = rightHandTransform.transform;
 
             RigBuilder.Build();
-
-            if (Runner.IsServer)
-            {
-                _bodyCollider.enabled = true;
-            }
         }
     }
 
@@ -181,18 +174,15 @@ public class PlayerControl : NetworkBehaviour
 
     private void InterpolateEverything()
     {
-        if (!HasInputAuthority)
+        UpdateFinger();
+        Interpolate(transform, CharacterPosition, CharacterRotation);
+        if (leftHandTransform != null)
         {
-            UpdateFinger();
-            Interpolate(transform, CharacterPosition, CharacterRotation);
-            if (leftHandTransform != null)
-            {
-                Interpolate(leftHandTransform.transform, LHPosition, LHRotation);
-            }
-            if (rightHandTransform != null)
-            {
-                Interpolate(rightHandTransform.transform, RHPosition, RHRotation);
-            }
+            Interpolate(leftHandTransform.transform, LHPosition, LHRotation);
+        }
+        if (rightHandTransform != null)
+        {
+            Interpolate(rightHandTransform.transform, RHPosition, RHRotation);
         }
     }
 
@@ -232,55 +222,37 @@ public class PlayerControl : NetworkBehaviour
 
     public void FixedUpdate()
     {
-        if (!Runner.IsServer)
-        {
-            InterpolateEverything();
-        }
-
         if (HasInputAuthority)
         {
             UpdateMyFinger();
+        }
+        else
+        {
+            InterpolateEverything();
         }
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Runner.IsServer)
+        if (HasInputAuthority)
         {
-            if (HasInputAuthority) // Host Client
-            {
-                CharacterPosition = transform.position;
-                CharacterRotation = transform.rotation;
+            CharacterPosition = transform.position;
+            CharacterRotation = transform.rotation;
 
-                LHPosition = _leftIK.data.target.position;
-                LHRotation = _leftIK.data.target.rotation;
+            LHPosition = _leftIK.data.target.position;
+            LHRotation = _leftIK.data.target.rotation;
 
-                RHPosition = _rightIK.data.target.position;
-                RHRotation = _rightIK.data.target.rotation;
+            RHPosition = _rightIK.data.target.position;
+            RHRotation = _rightIK.data.target.rotation;
 
-                LeftHandIndex = ButtonPressState[ControllerButtonType.LeftTrigger];
-                LeftHandPinky = ButtonPressState[ControllerButtonType.LeftGrip];
-                RightHandIndex = ButtonPressState[ControllerButtonType.RightTrigger];
-                RightHandPinky = ButtonPressState[ControllerButtonType.RightGrip];
-            }
-            else if (GetInput(out NetworkInput input))
-            {
-                CharacterPosition = input.Position;
-                CharacterRotation = input.Rotation;
-
-                LHPosition = input.LHPosition;
-                LHRotation = input.LHRotation;
-
-                RHPosition = input.RHPosition;
-                RHRotation = input.RHRotation;
-
-                LeftHandIndex = input.HandFoldStatus.GetBit(0);
-                LeftHandPinky = input.HandFoldStatus.GetBit(1);
-                RightHandIndex = input.HandFoldStatus.GetBit(2);
-                RightHandPinky = input.HandFoldStatus.GetBit(3);
-
-                InterpolateEverything();
-            }
+            LeftHandIndex = ButtonPressState[ControllerButtonType.LeftTrigger];
+            LeftHandPinky = ButtonPressState[ControllerButtonType.LeftGrip];
+            RightHandIndex = ButtonPressState[ControllerButtonType.RightTrigger];
+            RightHandPinky = ButtonPressState[ControllerButtonType.RightGrip];
+        }
+        else
+        {
+            InterpolateEverything();
         }
     }
 
@@ -297,7 +269,7 @@ public class PlayerControl : NetworkBehaviour
 
     private void UpdateMouth()
     {
-        if (ReferenceEquals(_mouthBone, null)) return;
+        if (_mouthBone == null) return;
 
         float alpha = Mathf.Clamp((lastMicVolume + 50) / 30, 0, 1);
 #if UNITY_EDITOR
@@ -315,9 +287,6 @@ public class PlayerControl : NetworkBehaviour
 
     private void Update()
     {
-        if (Runner.IsPlayer)
-        {
-            UpdateMouth();
-        }
+        UpdateMouth();
     }
 }
