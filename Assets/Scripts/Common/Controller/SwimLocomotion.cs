@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public partial class RelativePositionControl
 {
@@ -31,7 +32,16 @@ public partial class RelativePositionControl
             Vector3 ray = targetPosition - lastPosition;
 
             Vector3 handsSpeed = GetVelocity(handsDirection, targetTransform.position, tick.ElapsedMilliseconds);
-            float handsSpeedMag = GetVelocity(handsDirection, targetTransform.position, tick.ElapsedMilliseconds).magnitude;
+
+            // Disable moving backward
+            Vector3 lookForward = RigControl.Instance.transform.forward;
+            Vector3 speedForwardDirection = Vector3.Project(handsSpeed, lookForward);
+            if (Vector3.Dot(speedForwardDirection, lookForward) > 0)
+            {
+                handsSpeed -= speedForwardDirection;
+            }
+
+            float handsSpeedMag = handsSpeed.magnitude;
 
             if (handsSpeedMag > _swimShootSpeed)
             {

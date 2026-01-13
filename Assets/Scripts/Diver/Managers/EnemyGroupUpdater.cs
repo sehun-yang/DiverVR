@@ -11,10 +11,11 @@ public static class EnemyGroupUpdater
         int count = enemies.Length;
 
         var handle0 = new JobHandle();
-        var handle1 = UpdateFlockGroup(handle0, enemies, count, group, deltaTime);
-        var handle2 = UpdateAnimation(handle1, enemies, count, group, deltaTime);
+        var flockHandle = UpdateFlockGroup(handle0, enemies, count, group, deltaTime);
+        var avoidHandle = AvoidPlayer(flockHandle, enemies, count, group, deltaTime);
+        var animHandle = UpdateAnimation(avoidHandle, enemies, count, group, deltaTime);
 
-        handle2.Complete();
+        animHandle.Complete();
     }
 
     public static JobHandle UpdateFlockGroup(JobHandle handle, NativeList<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
@@ -29,7 +30,19 @@ public static class EnemyGroupUpdater
             MaxY = WaterSurfaceHeight
         };
 
-        return flockJob.Schedule(count, 32, handle);
+        return flockJob.ScheduleByRef(count, 32, handle);
+    }
+
+    public static JobHandle AvoidPlayer(JobHandle handle, NativeList<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    {
+        var flockJob = new AvoidJob
+        {
+            Enemies = enemies.AsArray(),
+            MyPosition = RigControl.Instance.transform.position,
+            DeltaTime = deltaTime,
+        };
+
+        return flockJob.ScheduleByRef(count, 32, handle);
     }
 
     public static JobHandle UpdateAnimation(JobHandle handle, NativeList<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
@@ -40,6 +53,6 @@ public static class EnemyGroupUpdater
             DeltaTime = deltaTime
         };
 
-        return animJob.Schedule(count, 64, handle);
+        return animJob.ScheduleByRef(count, 64, handle);
     }
 }
