@@ -12,7 +12,6 @@ public class EnemyManager : MonoBehaviour
     [Header("Settings")]
     public EnemyDataAsset enemyDataAsset;
     public Camera renderCamera;
-    public float maxY = 0f;
 
     [Header("Debug")]
     public int totalEnemyCount;
@@ -59,7 +58,7 @@ public class EnemyManager : MonoBehaviour
             var group = kvp.Value;
             if (group.Count == 0) continue;
 
-            UpdateFlockGroup(group, deltaTime);
+            EnemyGroupUpdater.UpdateEnemyGroup(group, deltaTime);
         }
 
         ExtractFrustumPlanes();
@@ -71,37 +70,6 @@ public class EnemyManager : MonoBehaviour
 
             CullAndRenderFlockGroup(group);
         }
-    }
-
-    private void UpdateFlockGroup(FlockGroup group, float deltaTime)
-    {
-        var enemies = group.Enemies;
-        int count = enemies.Length;
-
-        var readOnlyCopy = new NativeArray<EnemyInstance>(enemies.AsArray(), Allocator.TempJob);
-
-        var flockJob = new FlockJob
-        {
-            Enemies = enemies.AsArray(),
-            ReadOnlyEnemies = readOnlyCopy,
-            Settings = group.Settings,
-            OriginPoint = group.OriginPoint,
-            MaxDistanceSq = group.MaxDistanceSq,
-            DeltaTime = deltaTime,
-            MaxY = maxY
-        };
-
-        var flockHandle = flockJob.Schedule(count, 32);
-
-        var animJob = new AnimationUpdateJob
-        {
-            Enemies = enemies.AsArray(),
-            DeltaTime = deltaTime
-        };
-
-        animJob.Schedule(count, 64, flockHandle).Complete();
-
-        readOnlyCopy.Dispose();
     }
 
     private void CullAndRenderFlockGroup(FlockGroup group)

@@ -49,7 +49,10 @@ public class EnemySpawner : MonoBehaviour
             spawnBound * 2f,
             settings
         );
+    }
 
+    private void Update()
+    {
         if (autoSpawn)
         {
             SpawnAll();

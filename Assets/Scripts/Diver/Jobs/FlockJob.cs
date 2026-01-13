@@ -6,8 +6,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct FlockJob : IJobParallelFor
 {
-    public NativeArray<EnemyInstance> Enemies;
-    [ReadOnly] public NativeArray<EnemyInstance> ReadOnlyEnemies;
+    [NativeDisableParallelForRestriction] public NativeArray<EnemyInstance> Enemies;
     [ReadOnly] public FlockSettings Settings;
     [ReadOnly] public float3 OriginPoint;
     [ReadOnly] public float MaxDistanceSq;
@@ -26,11 +25,11 @@ public struct FlockJob : IJobParallelFor
         float3 cohesion = float3.zero;
         int neighborCount = 0;
 
-        for (int i = 0; i < ReadOnlyEnemies.Length; i++)
+        for (int i = 0; i < Enemies.Length; i++)
         {
             if (i == index) continue;
 
-            var other = ReadOnlyEnemies[i];
+            var other = Enemies[i];
             float3 otherPos = other.Position;
             float dist = math.distance(myPos, otherPos);
 
