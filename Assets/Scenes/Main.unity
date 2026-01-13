@@ -288,7 +288,7 @@ MonoBehaviour:
   _breakSpeed: 2.3
   _shootSpeed: 0.2
   _contactCooltime: 0
-  _shootPowerMultiplier: 0.3
+  _shootPowerMultiplier: 0.25
   _contactBreakDistance: 0.8
   _contactBreakRadiusNormalDirection: 0.012
   _normalTerrainMaxClimbAngle: 180
@@ -299,7 +299,7 @@ MonoBehaviour:
   _underWaterBuoyancy: {x: 0, y: 8, z: 0}
   _swimShootPowerMultiplier: 1
   _swimShootPowerExponent: 0.25
-  _swimShootSpeed: 2.5
+  _swimShootSpeed: 3
 --- !u!4 &4339147
 Transform:
   m_ObjectHideFlags: 0
@@ -5330,6 +5330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b55c350b0299449b44981610b5b76b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModuleManager
+  InhaleModule:
+    Enabled: 0
+    InhaleStrength: 100
+    MaxInhaleRange: 100
+    ConeAngle: 50
 --- !u!4 &309559711
 Transform:
   m_ObjectHideFlags: 0

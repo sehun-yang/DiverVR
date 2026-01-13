@@ -82,6 +82,7 @@ public class PlayerControl : NetworkBehaviour
     public TwoBoneIKConstraint LeftIK => _leftIK;
     public TwoBoneIKConstraint RightIK => _rightIK;
     public Vector3 RightHandPosition => _rightHandCollider.transform.position;
+    public Vector3 RightArmForward => _tipRight.transform.parent.up;
 
     public readonly Dictionary<ControllerButtonType, bool> ButtonPressState = new ()
     {

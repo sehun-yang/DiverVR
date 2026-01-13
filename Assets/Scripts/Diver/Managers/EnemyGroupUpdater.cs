@@ -17,10 +17,47 @@ public static class EnemyGroupUpdater
         handle = Inhale(handle, enemiesArray, count, group, deltaTime);
         handle = UpdateAnimation(handle, enemiesArray, count, group, deltaTime);
 
+        NativeArray<bool> isDead = default;
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            isDead = new NativeArray<bool>(count, Allocator.TempJob);
+            handle = MarkDeadEnemies(handle, enemiesArray, count, isDead);
+        }
+
         handle.Complete();
+
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            RemoveDeadEnemies(group, isDead);
+            isDead.Dispose();
+        }
     }
 
-    public static JobHandle UpdateFlockGroup(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    private static void RemoveDeadEnemies(FlockGroup group, NativeArray<bool> isDead)
+    {
+        for (int i = isDead.Length - 1; i >= 0; i--)
+        {
+            if (isDead[i])
+            {
+                group.Enemies.RemoveAtSwapBack(i);
+            }
+        }
+    }
+
+    private static JobHandle MarkDeadEnemies(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, NativeArray<bool> isDead)
+    {
+        var job = new InhaleMarkDeadEnemiesJob
+        {
+            Enemies = enemies,
+            InhaleOrigin = RelativePositionControl.Instance.MyPlayerControl.RightHandPosition,
+            CaptureDistanceSq = 0.1f * 0.1f,
+            IsDead = isDead
+        };
+
+        return job.ScheduleByRef(count, 64, handle);
+    }
+
+    private static JobHandle UpdateFlockGroup(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
     {
         var job = new FlockJob
         {
@@ -35,7 +72,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle AvoidPlayer(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    private static JobHandle AvoidPlayer(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
     {
         var job = new AvoidJob
         {
@@ -47,7 +84,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    private static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
     {
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
@@ -57,6 +94,8 @@ public static class EnemyGroupUpdater
                 InhaleOrigin = RelativePositionControl.Instance.MyPlayerControl.RightHandPosition,
                 MaxInhaleRange = ModuleManager.Instance.InhaleModule.MaxInhaleRange,
                 InhaleStrength = ModuleManager.Instance.InhaleModule.InhaleStrength,
+                ForwardDirection = RelativePositionControl.Instance.MyPlayerControl.RightArmForward,
+                ConeAngle = ModuleManager.Instance.InhaleModule.ConeAngle,
                 DeltaTime = deltaTime,
             };
 
@@ -68,8 +107,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-
-    public static JobHandle UpdateAnimation(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    private static JobHandle UpdateAnimation(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
     {
         var job = new AnimationUpdateJob
         {

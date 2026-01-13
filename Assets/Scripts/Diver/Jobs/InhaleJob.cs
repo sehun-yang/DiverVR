@@ -10,18 +10,32 @@ public struct InhaleJob : IJobParallelFor
     [ReadOnly] public float MaxInhaleRange;
     [ReadOnly] public float InhaleStrength;
     [ReadOnly] public float3 InhaleOrigin;
+    [ReadOnly] public float3 ForwardDirection;
+    [ReadOnly] public float ConeAngle;
     [ReadOnly] public float DeltaTime;
 
     public void Execute(int index)
     {
         var enemy = Enemies[index];
         
-        float3 to = InhaleOrigin - enemy.Position;
+        float3 to = enemy.Position - InhaleOrigin;
         float len = math.length(to);
-        if (len < MaxInhaleRange && len > 0)
+        
+        if (len > 0 && len < MaxInhaleRange)
         {
-            enemy.Position += math.min(DeltaTime * InhaleStrength / len / len, len) * to;
-            Enemies[index] = enemy;
+            float3 directionToEnemy = to / len;
+            
+            float cosAngle = math.dot(ForwardDirection, directionToEnemy);
+            float cosHalfAngle = math.cos(math.radians(ConeAngle * 0.5f));
+            
+            if (len < 0.5f || cosAngle >= cosHalfAngle)
+            {
+                float3 inhaleDirection = -directionToEnemy;
+                float force = math.min(DeltaTime * InhaleStrength / len, len);
+                
+                enemy.Position += force * inhaleDirection;
+                Enemies[index] = enemy;
+            }
         }
     }
 }
