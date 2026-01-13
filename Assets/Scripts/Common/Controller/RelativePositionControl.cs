@@ -69,6 +69,7 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
     };
     private readonly Collider[] collisionResult = new Collider[1];
     private Transform character;
+    private PlayerControl playerControl;
     private Rigidbody characterRigidbody;
     private CapsuleCollider characterCollider;
     private readonly Dictionary<HandsDirection, Vector3> armOriginOffset = new();
@@ -114,6 +115,8 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
         {HandsDirection.Left, Quaternion.identity},
         {HandsDirection.Right, Quaternion.identity},
     };
+
+    public PlayerControl MyPlayerControl => playerControl;
 
     public void ToggleGorillaTagLocomotion()
     {
@@ -253,7 +256,7 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
         character = playerRig.transform;
         characterRigidbody = playerRig.GetComponent<Rigidbody>();
         characterCollider = playerRig.GetComponent<CapsuleCollider>();
-        var playerControl = playerRig.GetComponent<PlayerControl>();
+        playerControl = playerRig.GetComponent<PlayerControl>();
 
         initialHandsRotations[HandsDirection.Left] = leftRotationOffset;
         initialHandsRotations[HandsDirection.Right] = rightRotationOffset;

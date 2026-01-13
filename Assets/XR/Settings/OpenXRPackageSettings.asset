@@ -480,7 +480,7 @@ MonoBehaviour:
   m_optimizeMultiviewRenderRegions: 1
   m_multiviewRenderRegionsOptimizationMode: 2
   m_hasMigratedMultiviewRenderRegionSetting: 1
-  m_foveatedRenderingApi: 1
+  m_foveatedRenderingApi: 0
   m_useOpenXRPredictedTime: 0
 --- !u!114 &-874090083054598399
 MonoBehaviour:

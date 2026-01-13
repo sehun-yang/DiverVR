@@ -20,29 +20,7 @@
                 {
                     "name": "",
                     "id": "8aca0fa3-df67-4e38-a64d-7078df512d84",
-                    "path": "<QuestTouchPlusController>/{TriggerButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inhale",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5fd4625f-c4d1-4d2b-ac8d-65c3659ee477",
-                    "path": "<QuestProTouchController>/{TriggerButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inhale",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "73894126-d573-496f-aa05-619048fdf093",
-                    "path": "<OculusTouchController>/{TriggerButton}",
+                    "path": "<XRController>{RightHand}/{TriggerButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

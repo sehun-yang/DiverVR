@@ -47,9 +47,15 @@ public class EnemyManager : MonoBehaviour
         initialized = true;
     }
 
+    private bool OtherModuleLoaded()
+    {
+        return RelativePositionControl.Instance.started;
+    }
+
     private void LateUpdate()
     {
         if (!initialized || flockGroups.Count == 0) return;
+        if (!OtherModuleLoaded()) return;
 
         float deltaTime = Time.deltaTime;
 
