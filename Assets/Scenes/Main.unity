@@ -12483,6 +12483,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1663527648}
     m_Modifications:
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: simulationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: TrailModule.dieWithParticles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: TrailModule.widthOverTrail.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: TrailModule.widthOverTrail.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1790490271692062005, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: m_Name
       value: fxFlying_Wind_A
@@ -12527,6 +12563,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6567257088149885338, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a12d3529363552d4e94ca4c834841afd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
