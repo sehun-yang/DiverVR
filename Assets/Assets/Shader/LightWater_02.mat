@@ -37,6 +37,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 38fa9e2958a2aab4fadc00873891239c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UVDistortion_65ecea34b21948b8b4f91ffbdfc3fee8_NoiseMap_647888222_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 37c552ca8778d4c45bc1555329d94254, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -54,9 +62,10 @@ Material:
     - _Alpha: 0.8
     - _Float: 0
     - _FlowSpeed: 0.05
-    - _FoamDensity: 4
+    - _FoamDensity: 20
+    - _FoamOffset: 0.1
     - _FoamSpeed: 1
-    - _FoamThickness: 3
+    - _FoamThickness: 2
     - _MaxHeight: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -66,7 +75,9 @@ Material:
     - _XRMotionVectorsPass: 1
     m_Colors:
     - _Color: {r: 0.28773576, g: 0.494524, b: 1, a: 1}
-    - _FlowDirection: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _FoamColor: {r: 0.5304379, g: 0.69514287, b: 0.754717, a: 1}
+    - _FlowDirection: {r: 0.1, g: -0.1, b: 0, a: 0}
+    - _FoamColor: {r: 0.28627452, g: 0.49411768, b: 1, a: 1}
+    - _MaskTileAmount: {r: 10, g: 50, b: 0, a: 0}
+    - _OceanFoamColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
