@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public abstract class EnemySpawnerBase : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public int enemyTypeId;
@@ -8,50 +8,14 @@ public class EnemySpawner : MonoBehaviour
     public float spawnBound = 5f;
     public bool autoSpawn = true;
 
-    [Header("Flock Settings")]
-    public float neighborDistance = 3f;
-    public float separationDistance = 1f;
-    public float separationWeight = 1.5f;
-    public float alignmentWeight = 1f;
-    public float cohesionWeight = 1f;
-    public float returnWeight = 2f;
-    public float minSpeed = 1f;
-    public float maxSpeed = 5f;
-    public float rotationSpeed = 5f;
-
-    private int groupId = -1;
-    private int currentSpawnCount;
-
-    private void Start()
-    {
-        if (EnemyManager.Instance == null)
-        {
-            Debug.LogError("EnemyManager not found!");
-            return;
-        }
-
-        var settings = new FlockSettings
-        {
-            NeighborDistance = neighborDistance,
-            SeparationDistance = separationDistance,
-            SeparationWeight = separationWeight,
-            AlignmentWeight = alignmentWeight,
-            CohesionWeight = cohesionWeight,
-            ReturnWeight = returnWeight,
-            MinSpeed = minSpeed,
-            MaxSpeed = maxSpeed,
-            RotationSpeed = rotationSpeed
-        };
-
-        var group = new FlockGroup(groupId, enemyTypeId, transform.position, spawnBound * 2f, settings);
-        groupId = EnemyManager.Instance.RegisterRenderGroup(group);
-    }
+    protected int groupId = -1;
+    protected int currentSpawnCount;
 
     private void Update()
     {
         if (autoSpawn)
         {
-            SpawnAll();
+            SpawnOne();
         }
     }
 

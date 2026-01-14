@@ -5285,7 +5285,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 288326321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -5518,7 +5518,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 370537427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11134,7 +11134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 835433951}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11426,7 +11426,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1325995673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11483,7 +11483,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1341933856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11714,7 +11714,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1429819958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11895,7 +11895,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1645343505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -11987,7 +11987,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1668524518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -12297,7 +12297,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1984644013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -12354,7 +12354,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2071004027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -12459,7 +12459,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2099688839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e12ff87d724b03a4ea18a2701e6851d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9106022140f856741a4ac71fc60d9209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
@@ -12660,8 +12660,8 @@ SceneRoots:
   - {fileID: 248084226}
   - {fileID: 1241444658}
   - {fileID: 309559711}
+  - {fileID: 2085733215}
   - {fileID: 1106815270}
   - {fileID: 976703893}
   - {fileID: 2116020545}
   - {fileID: 138038345}
-  - {fileID: 2085733215}

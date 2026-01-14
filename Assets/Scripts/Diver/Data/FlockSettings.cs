@@ -13,7 +13,7 @@ public struct FlockSettings
     public float MaxSpeed;
     public float RotationSpeed;
 
-    public static FlockSettings Default => new FlockSettings
+    public static FlockSettings Default => new ()
     {
         NeighborDistance = 3f,
         SeparationDistance = 1f,

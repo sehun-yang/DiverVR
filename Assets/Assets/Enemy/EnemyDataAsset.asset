@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemyDataAsset
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDataAsset
   EnemyData:
-  - AnimationAsset: {fileID: 11400000, guid: d2eeb69a45738de4aadb15e9bd68ed58, type: 2}
+  - GPUSkinning: 1
+    AnimationAsset: {fileID: 11400000, guid: d2eeb69a45738de4aadb15e9bd68ed58, type: 2}
     Mesh: {fileID: 2492698829512849286, guid: 6dd8bdaef87be0940a352df682df9ce9, type: 3}
     Material: {fileID: 2100000, guid: 556ee873dba12814ebcbc4bd9b2dbb25, type: 2}

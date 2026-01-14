@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class EnemyData
 {
+    public bool GPUSkinning;
     public BakedAnimationAsset AnimationAsset;
     public Mesh Mesh;
     public Material Material;

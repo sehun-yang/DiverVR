@@ -5,19 +5,13 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 {
-    public static EnemyManager Instance { get; private set; }
-
     [Header("Settings")]
     public EnemyDataAsset enemyDataAsset;
     public Camera renderCamera;
 
-    [Header("Debug")]
-    public int totalEnemyCount;
-    public int visibleEnemyCount;
-
-    private Dictionary<int, RenderGroup> renderingGroups = new();
+    private readonly Dictionary<int, RenderGroup> renderingGroups = new();
     private NativeArray<float4> frustumPlanes;
     private NativeArray<Plane> cameraPlanes;
     private bool initialized;
@@ -25,24 +19,13 @@ public class EnemyManager : MonoBehaviour
 
     private const int MaxBatchSize = 1023;
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-
-        frustumPlanes = new NativeArray<float4>(6, Allocator.Persistent);
-        cameraPlanes = new NativeArray<Plane>(6, Allocator.Persistent);
-    }
-
     private void Start()
     {
         if (renderCamera == null)
             renderCamera = Camera.main;
 
+        frustumPlanes = new NativeArray<float4>(6, Allocator.Persistent);
+        cameraPlanes = new NativeArray<Plane>(6, Allocator.Persistent);
         InitializeMaterials();
         initialized = true;
     }
@@ -110,7 +93,10 @@ public class EnemyManager : MonoBehaviour
 
         var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
 
-        ComputeBufferContainer.Instance.EnemyRenderSystemAnimationTimeBuffer.SetData(group.AnimationData, 0, 0, visibleCount);
+        if (enemyData.GPUSkinning)
+        {
+            ComputeBufferContainer.Instance.EnemyRenderSystemAnimationTimeBuffer.SetData(group.AnimationData, 0, 0, visibleCount);
+        }
 
         var renderParams = new RenderParams(enemyData.Material)
         {
@@ -156,6 +142,7 @@ public class EnemyManager : MonoBehaviour
         for (int enemyId = 0; enemyId < enemyDataAsset.EnemyData.Length; enemyId++)
         {
             var data = enemyDataAsset.EnemyData[enemyId];
+            if (!data.GPUSkinning) return;
             var material = data.Material;
 
             var boneWeightBuffer = CreateBoneWeightBuffer(data.Mesh);
@@ -282,8 +269,10 @@ public class EnemyManager : MonoBehaviour
         return group;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         foreach (var kvp in renderingGroups)
         {
             kvp.Value.Dispose();
