@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     public int totalEnemyCount;
     public int visibleEnemyCount;
 
-    private Dictionary<int, FlockGroup> flockGroups = new();
+    private Dictionary<int, RenderGroup> renderingGroups = new();
     private NativeArray<float4> frustumPlanes;
     private NativeArray<Plane> cameraPlanes;
     private bool initialized;
@@ -54,31 +54,31 @@ public class EnemyManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!initialized || flockGroups.Count == 0) return;
+        if (!initialized || renderingGroups.Count == 0) return;
         if (!OtherModuleLoaded()) return;
 
         float deltaTime = Time.deltaTime;
 
-        foreach (var kvp in flockGroups)
+        foreach (var kvp in renderingGroups)
         {
             var group = kvp.Value;
             if (group.Count == 0) continue;
 
-            EnemyGroupUpdater.UpdateEnemyGroup(group, deltaTime);
+            group.UpdateGroup(deltaTime);
         }
 
         ExtractFrustumPlanes();
 
-        foreach (var kvp in flockGroups)
+        foreach (var kvp in renderingGroups)
         {
             var group = kvp.Value;
             if (group.Count == 0) continue;
 
-            CullAndRenderFlockGroup(group);
+            CullAndRenderGroup(group);
         }
     }
 
-    private void CullAndRenderFlockGroup(FlockGroup group)
+    private void CullAndRenderGroup(RenderGroup group)
     {
         int count = group.Count;
         if (count == 0) return;
@@ -230,17 +230,16 @@ public class EnemyManager : MonoBehaviour
         return buffer;
     }
 
-    public int CreateFlockGroup(int enemyTypeId, Vector3 origin, float maxDistance, FlockSettings settings)
+    public int RegisterRenderGroup(RenderGroup group)
     {
         int groupId = nextGroupId++;
-        var group = new FlockGroup(groupId, enemyTypeId, origin, maxDistance, settings);
-        flockGroups[groupId] = group;
+        renderingGroups[groupId] = group;
         return groupId;
     }
 
     public void SpawnEnemy(int groupId, Vector3 position)
     {
-        if (!flockGroups.TryGetValue(groupId, out var group)) return;
+        if (!renderingGroups.TryGetValue(groupId, out var group)) return;
 
         var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
 
@@ -262,34 +261,34 @@ public class EnemyManager : MonoBehaviour
 
     public void RemoveEnemy(int groupId, int index)
     {
-        if (!flockGroups.TryGetValue(groupId, out var group)) return;
+        if (!renderingGroups.TryGetValue(groupId, out var group)) return;
         if (index < 0 || index >= group.Count) return;
 
         group.RemoveAt(index);
     }
 
-    public void RemoveFlockGroup(int groupId)
+    public void RemoveRenderGroup(int groupId)
     {
-        if (flockGroups.TryGetValue(groupId, out var group))
+        if (renderingGroups.TryGetValue(groupId, out var group))
         {
             group.Dispose();
-            flockGroups.Remove(groupId);
+            renderingGroups.Remove(groupId);
         }
     }
 
-    public FlockGroup GetFlockGroup(int groupId)
+    public RenderGroup GetRenderGroup(int groupId)
     {
-        flockGroups.TryGetValue(groupId, out var group);
+        renderingGroups.TryGetValue(groupId, out var group);
         return group;
     }
 
     private void OnDestroy()
     {
-        foreach (var kvp in flockGroups)
+        foreach (var kvp in renderingGroups)
         {
             kvp.Value.Dispose();
         }
-        flockGroups.Clear();
+        renderingGroups.Clear();
 
         if (frustumPlanes.IsCreated) frustumPlanes.Dispose();
         if (cameraPlanes.IsCreated) cameraPlanes.Dispose();

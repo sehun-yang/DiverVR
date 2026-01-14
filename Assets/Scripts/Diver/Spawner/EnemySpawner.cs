@@ -43,12 +43,8 @@ public class EnemySpawner : MonoBehaviour
             RotationSpeed = rotationSpeed
         };
 
-        groupId = EnemyManager.Instance.CreateFlockGroup(
-            enemyTypeId,
-            transform.position,
-            spawnBound * 2f,
-            settings
-        );
+        var group = new FlockGroup(groupId, enemyTypeId, transform.position, spawnBound * 2f, settings);
+        groupId = EnemyManager.Instance.RegisterRenderGroup(group);
     }
 
     private void Update()
@@ -84,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (groupId < 0 || EnemyManager.Instance == null) return;
         
-        var group = EnemyManager.Instance.GetFlockGroup(groupId);
+        var group = EnemyManager.Instance.GetRenderGroup(groupId);
         if (group == null || group.Count == 0) return;
 
         EnemyManager.Instance.RemoveEnemy(groupId, group.Count - 1);
@@ -95,7 +91,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (groupId < 0 || EnemyManager.Instance == null) return;
 
-        var group = EnemyManager.Instance.GetFlockGroup(groupId);
+        var group = EnemyManager.Instance.GetRenderGroup(groupId);
         if (group == null) return;
 
         while (group.Count > 0)
@@ -109,7 +105,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (groupId >= 0 && EnemyManager.Instance != null)
         {
-            EnemyManager.Instance.RemoveFlockGroup(groupId);
+            EnemyManager.Instance.RemoveRenderGroup(groupId);
         }
     }
 
