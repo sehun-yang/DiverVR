@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 358efcbf069e49d4da0af383ca875f16
+guid: d011ad29c42934648837faf4d0725758
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,7 +7,12 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: rock_mat
+      name: ore_04_mat
+    second: {fileID: 2100000, guid: abf1e07407336e84593cd6ff2bb4aa2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ore_base_mat
     second: {fileID: 2100000, guid: 0d067fd2b7f462b41855b73b2badb4a5, type: 2}
   materials:
     materialImportMode: 2
