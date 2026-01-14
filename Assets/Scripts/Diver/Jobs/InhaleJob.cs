@@ -14,6 +14,8 @@ public struct InhaleJob : IJobParallelFor
     [ReadOnly] public float ConeAngle;
     [ReadOnly] public float DeltaTime;
 
+    private const float MaxAcceleration = 200f;
+
     public void Execute(int index)
     {
         var enemy = Enemies[index];
@@ -31,7 +33,7 @@ public struct InhaleJob : IJobParallelFor
             if (len < 0.5f || cosAngle >= cosHalfAngle)
             {
                 float3 inhaleDirection = -directionToEnemy;
-                float force = math.min(DeltaTime * InhaleStrength / len, len);
+                float force = math.min(InhaleStrength / len, MaxAcceleration);
                 
                 enemy.Acceleration += force * inhaleDirection;
                 Enemies[index] = enemy;

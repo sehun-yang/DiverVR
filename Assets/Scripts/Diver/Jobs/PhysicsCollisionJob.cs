@@ -13,6 +13,7 @@ public struct PhysicsCollisionJob : IJobParallelFor
     [ReadOnly] public float3 Gravity;
 
     private const float Restitution = 0.2f;
+    private const float LinearDrag = 0.3f;
 
     public void Execute(int index)
     {
@@ -33,7 +34,7 @@ public struct PhysicsCollisionJob : IJobParallelFor
             
             if (normalVelocity < 0)
             {
-                enemy.Velocity -= normal * normalVelocity * (1 + Restitution);
+                enemy.Velocity -= (1 + Restitution) * normalVelocity * normal;
             }
             
             float normalAccel = math.dot(enemy.Acceleration, normal);
@@ -44,6 +45,8 @@ public struct PhysicsCollisionJob : IJobParallelFor
             
             enemy.Velocity += enemy.Acceleration * DeltaTime;
         }
+
+        enemy.Velocity *= math.exp(-LinearDrag * DeltaTime);
         
         enemy.Acceleration = float3.zero;
         Enemies[index] = enemy;
