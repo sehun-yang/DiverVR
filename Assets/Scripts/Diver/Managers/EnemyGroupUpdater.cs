@@ -1,5 +1,6 @@
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine;
 
 public static class EnemyGroupUpdater
 {
@@ -54,6 +55,42 @@ public static class EnemyGroupUpdater
         };
 
         return job.ScheduleByRef(count, 32, handle);
+    }
+
+    public static JobHandle PhysicsNoCollision(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    {
+        var job = new PhysicsJob
+        {
+            Enemies = enemies,
+            DeltaTime = deltaTime,
+        };
+
+        return job.ScheduleByRef(count, 32, handle);
+    }
+
+    public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    {
+        var raycastCommands = new NativeArray<SpherecastCommand>(count, Allocator.TempJob);
+        var raycastHits = new NativeArray<RaycastHit>(count, Allocator.TempJob);
+
+        var job = new PhysicsRaycastJob
+        {
+            Enemies = enemies,
+            Commands = raycastCommands,
+            DeltaTime = deltaTime
+        };
+
+        handle = job.ScheduleByRef(count, 64, handle);
+        SpherecastCommand.ScheduleBatch(raycastCommands, raycastHits, 32, handle).Complete();
+
+        var processJob = new PhysicsCollisionJob
+        {
+            Enemies = enemies,
+            Hits = raycastHits,
+            DeltaTime = deltaTime,
+            Gravity = Physics.gravity
+        };
+        return processJob.ScheduleByRef(count, 64);
     }
 
     public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)

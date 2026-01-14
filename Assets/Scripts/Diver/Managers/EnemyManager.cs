@@ -73,25 +73,39 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         };
         cullingJob.Schedule(count, 64).Complete();
 
+        var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
         group.EnsureCapacity(count);
 
         var visibleCountRef = new NativeReference<int>(Allocator.TempJob);
 
-        var collectJob = new CollectRenderDataJob
+
+        if (enemyData.GPUSkinning)
         {
-            Enemies = group.Enemies.AsArray(),
-            Matrices = group.Matrices,
-            AnimationData = group.AnimationData,
-            VisibleCount = visibleCountRef
-        };
-        collectJob.Schedule().Complete();
+            var collectJob = new CollectRenderDataJob
+            {
+                Enemies = group.Enemies.AsArray(),
+                Matrices = group.Matrices,
+                AnimationData = group.AnimationData,
+                VisibleCount = visibleCountRef
+            };
+            collectJob.Schedule().Complete();
+        }
+        else
+        {
+            var collectJob = new CollectRenderDataJobNoAnimation
+            {
+                Enemies = group.Enemies.AsArray(),
+                Matrices = group.Matrices,
+                VisibleCount = visibleCountRef
+            };
+            collectJob.Schedule().Complete();
+        }
 
         int visibleCount = visibleCountRef.Value;
         visibleCountRef.Dispose();
 
         if (visibleCount == 0) return;
 
-        var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
 
         if (enemyData.GPUSkinning)
         {
@@ -238,7 +252,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             EnemyTypeId = group.EnemyTypeId,
             AnimationTime = 0,
             AnimationIndex = 0,
-            AnimationLength = enemyData.AnimationAsset.clips[0].duration,
+            AnimationLength = enemyData.GPUSkinning ? enemyData.AnimationAsset.clips[0].duration : 0,
             BoundingRadius = enemyData.Mesh.bounds.extents.magnitude,
             IsVisible = 1
         };

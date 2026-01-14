@@ -13,6 +13,7 @@ public abstract class RenderGroup : IDisposable
     public NativeArray<float2> AnimationData;
 
     protected int currentCapacity;
+    protected bool useAnimation;
     protected const int InitialCapacity = 64;
     protected const int CapacityGrowth = 64;
 
@@ -25,7 +26,6 @@ public abstract class RenderGroup : IDisposable
         int newCapacity = ((required / CapacityGrowth) + 1) * CapacityGrowth;
 
         var newMatrices = new NativeArray<Matrix4x4>(newCapacity, Allocator.Persistent);
-        var newAnimData = new NativeArray<float2>(newCapacity, Allocator.Persistent);
 
         if (Matrices.IsCreated && Matrices.Length > 0)
         {
@@ -33,15 +33,19 @@ public abstract class RenderGroup : IDisposable
             Matrices.Dispose();
         }
 
-        if (AnimationData.IsCreated && AnimationData.Length > 0)
-        {
-            NativeArray<float2>.Copy(AnimationData, newAnimData, math.min(AnimationData.Length, newCapacity));
-            AnimationData.Dispose();
-        }
-
         Matrices = newMatrices;
-        AnimationData = newAnimData;
         currentCapacity = newCapacity;
+
+        if(useAnimation)
+        {
+            var newAnimData = new NativeArray<float2>(newCapacity, Allocator.Persistent);
+            if (AnimationData.IsCreated && AnimationData.Length > 0)
+            {
+                NativeArray<float2>.Copy(AnimationData, newAnimData, math.min(AnimationData.Length, newCapacity));
+                AnimationData.Dispose();
+            }
+            AnimationData = newAnimData;
+        }
     }
 
     public void AddEnemy(EnemyInstance enemy)

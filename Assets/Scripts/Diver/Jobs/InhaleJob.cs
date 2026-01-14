@@ -33,7 +33,7 @@ public struct InhaleJob : IJobParallelFor
                 float3 inhaleDirection = -directionToEnemy;
                 float force = math.min(DeltaTime * InhaleStrength / len, len);
                 
-                enemy.Position += force * inhaleDirection;
+                enemy.Acceleration += force * inhaleDirection;
                 Enemies[index] = enemy;
             }
         }

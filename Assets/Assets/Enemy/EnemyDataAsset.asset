@@ -17,3 +17,7 @@ MonoBehaviour:
     AnimationAsset: {fileID: 11400000, guid: d2eeb69a45738de4aadb15e9bd68ed58, type: 2}
     Mesh: {fileID: 2492698829512849286, guid: 6dd8bdaef87be0940a352df682df9ce9, type: 3}
     Material: {fileID: 2100000, guid: 556ee873dba12814ebcbc4bd9b2dbb25, type: 2}
+  - GPUSkinning: 0
+    AnimationAsset: {fileID: 0}
+    Mesh: {fileID: -8035473100795213634, guid: a8540e6c35fd7c24e96631e2a8c3002d, type: 3}
+    Material: {fileID: 2100000, guid: abf1e07407336e84593cd6ff2bb4aa2b, type: 2}

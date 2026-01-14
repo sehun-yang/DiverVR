@@ -1,27 +1,18 @@
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class FlockGroup : RenderGroup
+public class StaticRenderGroup : RenderGroup
 {
-    public float3 OriginPoint;
-    public float MaxDistanceSq;
-    public FlockSettings Settings;
-
-    public FlockGroup(int groupId, int enemyTypeId, float3 origin, float maxDistance, FlockSettings settings)
+    public StaticRenderGroup(int groupId, int enemyTypeId)
     {
         GroupId = groupId;
         EnemyTypeId = enemyTypeId;
-        OriginPoint = origin;
-        MaxDistanceSq = maxDistance * maxDistance;
-        Settings = settings;
 
-        useAnimation = true;
+        useAnimation = false;
         currentCapacity = InitialCapacity;
         Enemies = new NativeList<EnemyInstance>(currentCapacity, Allocator.Persistent);
         Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
-        AnimationData = new NativeArray<float2>(currentCapacity, Allocator.Persistent);
     }
 
     public override void UpdateGroup(float deltaTime)
@@ -31,11 +22,8 @@ public class FlockGroup : RenderGroup
         var enemiesArray = enemies.AsArray();
 
         var handle = new JobHandle();
-        handle = EnemyGroupUpdater.UpdateFlockGroup(handle, enemiesArray, count, this, deltaTime);
-        handle = EnemyGroupUpdater.AvoidPlayer(handle, enemiesArray, count, deltaTime);
         handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime);
-        handle = EnemyGroupUpdater.PhysicsNoCollision(handle, enemiesArray, count, deltaTime);
-        handle = EnemyGroupUpdater.UpdateAnimation(handle, enemiesArray, count, deltaTime);
+        handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime);
 
         NativeArray<bool> isDead = default;
         if (ModuleManager.Instance.InhaleModule.Enabled)
