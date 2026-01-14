@@ -253,5 +253,7 @@ public partial class RelativePositionControl
 
             referenceTransform.SetPositionAndRotation(nextHandPositionMap[handsDirection] + totalElevation, targetTransform.rotation * initialHandsRotations[handsDirection]);
         }
+
+        RigControl.Instance.UpdateWindParticle(characterRigidbody.linearVelocity);
     }
 }
