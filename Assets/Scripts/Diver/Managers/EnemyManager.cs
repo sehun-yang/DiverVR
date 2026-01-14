@@ -237,6 +237,13 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         renderingGroups[groupId] = group;
         return groupId;
     }
+    
+    public int GetCount(int groupId)
+    {
+        if (!renderingGroups.TryGetValue(groupId, out var group)) return int.MaxValue;
+
+        return group.Enemies.Length;
+    }
 
     public void SpawnEnemy(int groupId, Vector3 position)
     {
@@ -258,14 +265,6 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         };
 
         group.AddEnemy(enemy);
-    }
-
-    public void RemoveEnemy(int groupId, int index)
-    {
-        if (!renderingGroups.TryGetValue(groupId, out var group)) return;
-        if (index < 0 || index >= group.Count) return;
-
-        group.RemoveAt(index);
     }
 
     public void RemoveRenderGroup(int groupId)

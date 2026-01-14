@@ -17,6 +17,7 @@ public struct PhysicsRaycastJob : IJobParallelFor
     public void Execute(int index)
     {
         var enemy = Enemies[index];
+
         Commands[index] = new SpherecastCommand(
             enemy.Position,
             enemy.BoundingRadius,

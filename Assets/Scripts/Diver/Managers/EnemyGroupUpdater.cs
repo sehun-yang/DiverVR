@@ -90,7 +90,13 @@ public static class EnemyGroupUpdater
             DeltaTime = deltaTime,
             Gravity = Physics.gravity
         };
-        return processJob.ScheduleByRef(count, 64);
+
+        processJob.ScheduleByRef(count, 64).Complete();
+
+        raycastCommands.Dispose();
+        raycastHits.Dispose();
+
+        return default;
     }
 
     public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)

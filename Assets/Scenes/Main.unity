@@ -5426,9 +5426,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModuleManager
   InhaleModule:
     Enabled: 0
-    InhaleStrength: 100
+    InhaleStrength: 2000
     MaxInhaleRange: 100
-    ConeAngle: 50
+    ConeAngle: 60
 --- !u!4 &309559711
 Transform:
   m_ObjectHideFlags: 0
@@ -10862,7 +10862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OreSpawner
   enemyTypeId: 1
-  maxSpawnAmount: 10
+  maxSpawnAmount: 100
   spawnBound: 3
   autoSpawn: 1
 --- !u!1 &598488987

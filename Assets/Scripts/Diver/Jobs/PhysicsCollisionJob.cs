@@ -8,9 +8,11 @@ using UnityEngine;
 public struct PhysicsCollisionJob : IJobParallelFor
 {
     public NativeArray<EnemyInstance> Enemies;
-    public NativeArray<RaycastHit> Hits;
+    [ReadOnly] public NativeArray<RaycastHit> Hits;
     [ReadOnly] public float DeltaTime;
     [ReadOnly] public float3 Gravity;
+
+    private const float Restitution = 0.2f;
 
     public void Execute(int index)
     {
@@ -18,7 +20,7 @@ public struct PhysicsCollisionJob : IJobParallelFor
         var hit = Hits[index];
 
         enemy.Acceleration += Gravity;
-        
+
         if (hit.colliderEntityId == 0)
         {
             enemy.Position += enemy.Velocity * DeltaTime;
@@ -26,10 +28,24 @@ public struct PhysicsCollisionJob : IJobParallelFor
         }
         else
         {
-            enemy.Velocity = math.reflect(enemy.Velocity, hit.normal) * 0.2f;
+            float3 normal = hit.normal;
+            float normalVelocity = math.dot(enemy.Velocity, normal);
+            
+            if (normalVelocity < 0)
+            {
+                enemy.Velocity -= normal * normalVelocity * (1 + Restitution);
+            }
+            
+            float normalAccel = math.dot(enemy.Acceleration, normal);
+            if (normalAccel < 0)
+            {
+                enemy.Acceleration -= normal * normalAccel;
+            }
+            
+            enemy.Velocity += enemy.Acceleration * DeltaTime;
         }
-        enemy.Acceleration = 0;
-
+        
+        enemy.Acceleration = float3.zero;
         Enemies[index] = enemy;
     }
 }

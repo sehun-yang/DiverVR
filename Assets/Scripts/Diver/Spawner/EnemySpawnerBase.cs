@@ -9,7 +9,8 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     public bool autoSpawn = true;
 
     protected int groupId = -1;
-    protected int currentSpawnCount;
+
+    protected int CurrentSpawnCount => EnemyManager.Instance.GetCount(groupId);
 
     private void Update()
     {
@@ -21,7 +22,7 @@ public abstract class EnemySpawnerBase : MonoBehaviour
 
     public void SpawnAll()
     {
-        int toSpawn = maxSpawnAmount - currentSpawnCount;
+        int toSpawn = maxSpawnAmount - CurrentSpawnCount;
         for (int i = 0; i < toSpawn; i++)
         {
             SpawnOne();
@@ -31,38 +32,12 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     public void SpawnOne()
     {
         if (groupId < 0 || EnemyManager.Instance == null) return;
-        if (currentSpawnCount >= maxSpawnAmount) return;
+        if (CurrentSpawnCount >= maxSpawnAmount) return;
 
         Vector3 randomOffset = Random.insideUnitSphere * spawnBound;
         Vector3 position = transform.position + randomOffset;
 
         EnemyManager.Instance.SpawnEnemy(groupId, position);
-        currentSpawnCount++;
-    }
-
-    public void DespawnOne()
-    {
-        if (groupId < 0 || EnemyManager.Instance == null) return;
-        
-        var group = EnemyManager.Instance.GetRenderGroup(groupId);
-        if (group == null || group.Count == 0) return;
-
-        EnemyManager.Instance.RemoveEnemy(groupId, group.Count - 1);
-        currentSpawnCount--;
-    }
-
-    public void DespawnAll()
-    {
-        if (groupId < 0 || EnemyManager.Instance == null) return;
-
-        var group = EnemyManager.Instance.GetRenderGroup(groupId);
-        if (group == null) return;
-
-        while (group.Count > 0)
-        {
-            EnemyManager.Instance.RemoveEnemy(groupId, group.Count - 1);
-        }
-        currentSpawnCount = 0;
     }
 
     private void OnDestroy()
