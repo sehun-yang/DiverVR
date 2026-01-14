@@ -70,7 +70,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _WaveGlobalPosition: 0
-    - _WaveHeight: 0.1
+    - _WaveHeight: 0.02
     - _WaveSpeed: 20
     - _XRMotionVectorsPass: 1
     m_Colors:
