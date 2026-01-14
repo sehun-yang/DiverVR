@@ -5,9 +5,6 @@
     "m_Properties": [
         {
             "m_Id": "1960468ff164e78fa8b96c97401aa9af"
-        },
-        {
-            "m_Id": "3ed8a73e17265f848549faf45bf82fef"
         }
     ],
     "m_Keywords": [],
@@ -1531,9 +1528,6 @@
     "m_ChildObjectList": [
         {
             "m_Id": "1960468ff164e78fa8b96c97401aa9af"
-        },
-        {
-            "m_Id": "3ed8a73e17265f848549faf45bf82fef"
         }
     ]
 }
@@ -1663,34 +1657,6 @@
         "Y",
         "Z"
     ]
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.BooleanShaderProperty",
-    "m_ObjectId": "3ed8a73e17265f848549faf45bf82fef",
-    "m_Guid": {
-        "m_GuidSerialized": "b411555a-a064-467f-8f04-262ea1aecfe3"
-    },
-    "promotedFromAssetID": "",
-    "promotedFromCategoryName": "",
-    "promotedOrdering": -1,
-    "m_Name": "Use SoftParticleFactor?",
-    "m_DefaultRefNameVersion": 0,
-    "m_RefNameGeneratedByDisplayName": "",
-    "m_DefaultReferenceName": "Boolean_BB495B7B",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_PerRendererData": false,
-    "m_customAttributes": [],
-    "m_Value": true
 }
 
 {
