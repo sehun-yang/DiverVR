@@ -11110,7 +11110,7 @@ Transform:
   m_GameObject: {fileID: 833215065}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -10.01, z: 0}
+  m_LocalPosition: {x: 0, y: -8.57, z: 0}
   m_LocalScale: {x: 130, y: 100, z: 130}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12632,16 +12632,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: TrailModule.widthOverTrail.minScalar
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
@@ -12698,7 +12702,7 @@ PrefabInstance:
     - target: {fileID: 6567257088149885338, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: a12d3529363552d4e94ca4c834841afd, type: 2}
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
