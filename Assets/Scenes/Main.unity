@@ -10987,7 +10987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce4b0e5aad692042a7d9df9939ed524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlSwitch
-  FlyingMinimumHeight: 4
+  FlyingMinimumHeight: 5
 --- !u!4 &667940379
 Transform:
   m_ObjectHideFlags: 0

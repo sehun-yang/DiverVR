@@ -260,6 +260,11 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
             default:
                 break;
         }
+
+        if (!characterRigidbody.isKinematic)
+        {
+            characterRigidbody.angularVelocity = Vector3.zero;
+        }
     }
 
     private void Update()
