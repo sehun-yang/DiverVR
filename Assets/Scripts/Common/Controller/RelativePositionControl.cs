@@ -5,39 +5,6 @@ using UnityEngine.XR;
 
 public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePositionControl>
 {
-    private class ContactInfo
-    {
-        public bool Contacted;
-        public long LastContactTime;
-        public Vector3 Normal;
-        public Vector3 DevicePositionAtContact;
-        public Vector3 ContactCharacerPosition;
-        public float BreakDistance;
-        public float BreakDistanceNormalDirection;
-        public float BreakSpeed;
-
-        public bool PlatformCanMove;
-        public Transform ContactObjectTransform;
-        public Matrix4x4 ContactObjectInverseMatrixOld;
-
-        public Vector3 UpdateVector(Vector3 point)
-        {
-            return ContactObjectTransform.TransformVector(ContactObjectInverseMatrixOld.MultiplyVector(point));
-        }
-        public Vector3 UpdatePoint(Vector3 point)
-        {
-            return ContactObjectTransform.TransformPoint(ContactObjectInverseMatrixOld.MultiplyPoint3x4(point));
-        }
-        
-        public void UpdateContactObject()
-        {
-            Normal = ContactObjectTransform.TransformVector(ContactObjectInverseMatrixOld.MultiplyVector(Normal));
-            ContactCharacerPosition = ContactObjectTransform.TransformPoint(ContactObjectInverseMatrixOld.MultiplyPoint3x4(ContactCharacerPosition));
-
-            ContactObjectInverseMatrixOld = ContactObjectTransform.worldToLocalMatrix;
-        }
-    }
-
     private struct PositionInfo
     {
         public Vector3 Position;
@@ -84,27 +51,13 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
     [SerializeField] private LayerMask _obstacleLayers;
     [SerializeField] private float _breakSpeed = 5;
     [SerializeField] private float _shootSpeed = 2;
-    [SerializeField] private long _contactCooltime = 150;
     [SerializeField] private float _shootPowerMultiplier = 50f;
-    [SerializeField] private float _contactBreakDistance = 0.65f;
-    [SerializeField] private float _contactBreakRadiusNormalDirection = 0.05f;
     [SerializeField] private float _normalTerrainMaxClimbAngle = 60f;
     [SerializeField] private float _maxArmLength = 5f;
-    [SerializeField] private float _contactImpulseAmplitude = 1;
-    [SerializeField] private float _contactImpulseDuration = 0.5f;
     [SerializeField] private long _shotRetainTime = 70;
 
     private readonly Dictionary<HandsDirection, PositionInfo> lastRelPositions = new() { };
     private readonly Dictionary<HandsDirection, PositionInfo> lastDevPositions = new() { };
-    private readonly Dictionary<HandsDirection, ContactInfo> contacted = new()
-    {
-        {HandsDirection.Left, new ContactInfo() {
-            Contacted = false
-        }},
-        {HandsDirection.Right, new ContactInfo() {
-            Contacted = false
-        }}
-    };
     private readonly Dictionary<HandsDirection, LinkedList<PositionInfo>> velocityTrackers = new()
     {
         {HandsDirection.Left, new () {}},
@@ -172,10 +125,6 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
             }
             shotTimer[handsDirection] = time + ShotMinInterval;
 
-            foreach (var contactInfo in contacted)
-            {
-                contactInfo.Value.Contacted = false;
-            }
             TogglePhysics(true);
 
             if (Vector3.Dot(direction, projectNormal) > 0 && direction.sqrMagnitude > _shootSpeed * _shootSpeed)
@@ -230,13 +179,6 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
 
     private void OnForcePushCharacter(Vector3 velocity)
     {
-        foreach (var kv in contacted)
-        {
-            var contactInfo = kv.Value;
-            contactInfo.Contacted = false;
-            contactInfo.LastContactTime = tick.ElapsedMilliseconds;
-        }
-
         characterRigidbody.isKinematic = false;
         characterRigidbody.linearVelocity = velocity;
         characterRigidbody.angularVelocity = Vector3.zero;
@@ -271,6 +213,7 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
         Initialize();
 
         started = true;
+        TogglePhysics(true);
     }
 
     private void TogglePhysics(bool on)
@@ -350,12 +293,6 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
             kv.Value.Clear();
         }
 
-        foreach (var kv in contacted)
-        {
-            kv.Value.Contacted = false;
-            kv.Value.LastContactTime = 0;
-        }
-
         _hands[HandsDirection.Left] = _deviceTransform[0];
         _hands[HandsDirection.Right] = _deviceTransform[1];
 
@@ -401,12 +338,6 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
     private void PrepareTeleport()
     {
         started = false;
-        foreach (var kv in contacted)
-        {
-            var contactInfo = kv.Value;
-            contactInfo.Contacted = false;
-        }
-
         if (!characterRigidbody.isKinematic)
         {
             characterRigidbody.linearVelocity = Vector3.zero;

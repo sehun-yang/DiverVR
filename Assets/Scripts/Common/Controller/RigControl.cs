@@ -6,7 +6,7 @@ public class RigControl : SingletonMonoBehaviour<RigControl>
 
     public void UpdateWindParticle(Vector3 bodyVelocity)
     {
-        bool toggle = Mathf.Abs(Vector3.Dot(bodyVelocity, transform.forward)) > 1;
+        bool toggle = Mathf.Abs(Vector3.Dot(bodyVelocity, transform.forward)) > 2;
 
         if (toggle)
         {

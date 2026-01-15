@@ -3,7 +3,7 @@ using Unity.Collections;
 using Unity.Jobs;
 
 [BurstCompile]
-public struct PhysicsJob : IJobParallelFor
+public struct PhysicsMovementJob : IJobParallelFor
 {
     public NativeArray<EnemyInstance> Enemies;
     [ReadOnly] public float DeltaTime;

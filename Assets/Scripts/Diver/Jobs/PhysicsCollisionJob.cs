@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [BurstCompile]
-public struct PhysicsCollisionJob : IJobParallelFor
+public struct PhysicsCollisionMovementJob : IJobParallelFor
 {
     public NativeArray<EnemyInstance> Enemies;
     [ReadOnly] public NativeArray<RaycastHit> Hits;
@@ -14,6 +14,7 @@ public struct PhysicsCollisionJob : IJobParallelFor
 
     private const float Restitution = 0.2f;
     private const float LinearDrag = 0.3f;
+    private const float Friction = 0.3f;
 
     public void Execute(int index)
     {
@@ -35,6 +36,11 @@ public struct PhysicsCollisionJob : IJobParallelFor
             if (normalVelocity < 0)
             {
                 enemy.Velocity -= (1 + Restitution) * normalVelocity * normal;
+
+                if (normalVelocity > -0.001f)
+                {
+                    enemy.Acceleration -= Friction * math.length(Gravity) * math.normalize(enemy.Velocity);
+                }
             }
             
             float normalAccel = math.dot(enemy.Acceleration, normal);

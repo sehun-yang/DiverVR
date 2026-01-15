@@ -12,7 +12,6 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (applicationIsQuitting)
             {
-                Debug.LogWarning($"[Singleton] Instance '{typeof(T)}' already destroyed. Returning null.");
                 return null;
             }
 

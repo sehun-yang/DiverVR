@@ -59,7 +59,7 @@ public static class EnemyGroupUpdater
 
     public static JobHandle PhysicsNoCollision(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
     {
-        var job = new PhysicsJob
+        var job = new PhysicsMovementJob
         {
             Enemies = enemies,
             DeltaTime = deltaTime,
@@ -83,7 +83,7 @@ public static class EnemyGroupUpdater
         handle = job.ScheduleByRef(count, 64, handle);
         SpherecastCommand.ScheduleBatch(raycastCommands, raycastHits, 32, handle).Complete();
 
-        var processJob = new PhysicsCollisionJob
+        var processJob = new PhysicsCollisionMovementJob
         {
             Enemies = enemies,
             Hits = raycastHits,
