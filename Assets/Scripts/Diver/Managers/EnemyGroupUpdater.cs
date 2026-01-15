@@ -68,7 +68,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
     {
         var raycastCommands = new NativeArray<SpherecastCommand>(count, Allocator.TempJob);
         var raycastHits = new NativeArray<RaycastHit>(count, Allocator.TempJob);
@@ -88,7 +88,7 @@ public static class EnemyGroupUpdater
             Enemies = enemies,
             Hits = raycastHits,
             DeltaTime = deltaTime,
-            Gravity = Physics.gravity
+            Gravity = gravity
         };
 
         processJob.ScheduleByRef(count, 64).Complete();

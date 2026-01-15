@@ -23,7 +23,7 @@ public class StaticRenderGroup : RenderGroup
 
         var handle = new JobHandle();
         handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime);
-        handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime);
+        handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Physics.gravity);
 
         NativeArray<bool> isDead = default;
         if (ModuleManager.Instance.InhaleModule.Enabled)

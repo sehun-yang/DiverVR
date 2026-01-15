@@ -6,7 +6,8 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct AvoidJob : IJobParallelFor
 {
-    private const float RunSpeed = 5;
+    private const float RunSpeed = 4;
+    private const float RunStartDist = 5;
 
     public NativeArray<EnemyInstance> Enemies;
     [ReadOnly] public float3 MyPosition;
@@ -18,7 +19,7 @@ public struct AvoidJob : IJobParallelFor
         
         float3 myNextPos = enemy.Position + enemy.Velocity * DeltaTime;
         float3 away = myNextPos - MyPosition;
-        if (math.lengthsq(away) < 5)
+        if (math.lengthsq(away) < RunStartDist)
         {
             enemy.Velocity = math.normalize(away) * RunSpeed;
             Enemies[index] = enemy;

@@ -86,7 +86,6 @@ public struct FlockJob : IJobParallelFor
         }
 
         enemy.Velocity = newVel;
-        enemy.Position += newVel * DeltaTime;
 
         if (math.lengthsq(newVel) > 0.001f)
         {
