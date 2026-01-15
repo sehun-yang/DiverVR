@@ -34,11 +34,9 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
         {HandsDirection.Left, new ()},
         {HandsDirection.Right, new ()},
     };
-    private readonly Collider[] collisionResult = new Collider[1];
     private Transform character;
     private PlayerControl playerControl;
     private Rigidbody characterRigidbody;
-    private CapsuleCollider characterCollider;
     private readonly Dictionary<HandsDirection, Vector3> armOriginOffset = new();
 
     [SerializeField] private AudioClip _jumpSound;
@@ -197,7 +195,6 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
 
         character = playerRig.transform;
         characterRigidbody = playerRig.GetComponent<Rigidbody>();
-        characterCollider = playerRig.GetComponent<CapsuleCollider>();
         playerControl = playerRig.GetComponent<PlayerControl>();
 
         initialHandsRotations[HandsDirection.Left] = leftRotationOffset;
