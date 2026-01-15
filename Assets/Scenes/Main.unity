@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fca384817a973c478659b92d1244d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelativePositionControl
-  _flyingShootPowerMultiplier: 1.5
+  _flyingShootPowerMultiplier: 0.3
   _flyingShootPowerExponent: 0.25
   _flyingShootSpeed: 2.5
   started: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   _maxArmLength: 0.75
   _shotRetainTime: 100
   _underWaterBuoyancy: {x: 0, y: 8, z: 0}
-  _swimShootPowerMultiplier: 1
+  _swimShootPowerMultiplier: 0.5
   _swimShootPowerExponent: 0.25
   _swimShootSpeed: 3
 --- !u!4 &4339147
@@ -10987,7 +10987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce4b0e5aad692042a7d9df9939ed524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlSwitch
-  FlyingMinimumHeight: 3
+  FlyingMinimumHeight: 4
 --- !u!4 &667940379
 Transform:
   m_ObjectHideFlags: 0

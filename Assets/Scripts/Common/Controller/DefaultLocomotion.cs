@@ -9,12 +9,19 @@ public partial class RelativePositionControl
         {HandsDirection.Right, Vector3.zero},
     };
 
+    private readonly Dictionary<HandsDirection, bool> isHandColliding = new()
+    {
+        {HandsDirection.Left, false},
+        {HandsDirection.Right, false},
+    };
+    private readonly Dictionary<HandsDirection, Vector3> lastHitNormal = new()
+    {
+        {HandsDirection.Left, Vector3.zero},
+        {HandsDirection.Right, Vector3.zero},
+    };
+
     private void DefaultFixedUpdate()
     {
-        if (!characterRigidbody.isKinematic)
-        {
-            characterRigidbody.angularVelocity = Vector3.zero;
-        }
     }
 
     private Vector3 ApplyRepulsivePower(Vector3 targetPosition, Vector3 hitPoint, Vector3 hitNormal)
@@ -28,20 +35,17 @@ public partial class RelativePositionControl
     private void DefaultUpdate()
     {
         Vector3 totalElevation = Vector3.zero;
+        bool doElevation = false;
+
         foreach (var hand in _hands)
         {
             HandsDirection handsDirection = hand.Key;
             Transform targetTransform = hand.Value;
-            Transform referenceTransform = _referenceMap[handsDirection];
 
             Vector3 targetPosition = ClampArm(handsDirection, character.position + targetTransform.position - _origin.position);
-            Vector3 currentPos = referenceTransform.position;
-            Vector3 newRefPos = targetPosition;
-
             Vector3 lastPosition = lastRelPositions[handsDirection].Position;
             Vector3 ray = targetPosition - lastPosition;
             Vector3 handsSpeed = GetVelocity(handsDirection, targetTransform.position, tick.ElapsedMilliseconds);
-            float handsSpeedMag = handsSpeed.magnitude;
 
             bool isShotRetained = shotExpireTimer[handsDirection].ExpireAt > tick.ElapsedMilliseconds;
 
@@ -52,26 +56,57 @@ public partial class RelativePositionControl
 
             if (Physics.Raycast(lastPosition, ray.normalized, out RaycastHit hit, ray.magnitude, _obstacleLayers))
             {
-                bool hasTerrainOverride = hit.transform.gameObject.TryGetComponent(out TerrainPropertyOverride terrain);
+                isHandColliding[handsDirection] = true;
+                lastHitNormal[handsDirection] = hit.normal;
 
-                float maxClimbAngle = hasTerrainOverride ? terrain.MaxClimbAngle : _normalTerrainMaxClimbAngle;
-                if (!isShotRetained)
+                doElevation = true;
+                Vector3 elevation = ApplyRepulsivePower(targetPosition, hit.point, hit.normal);
+
+                if (elevation.sqrMagnitude > totalElevation.sqrMagnitude)
                 {
-                    //EventBus.RaiseHapticFeedback(handsDirection, _contactImpulseAmplitude, _contactImpulseDuration);
+                    totalElevation = elevation;
                 }
-
-                totalElevation += ApplyRepulsivePower(targetPosition, hit.point, hit.normal);
 
                 if (!isShotRetained)
                 {
                     Shoot(handsDirection, hit.normal, -handsSpeed, true);
                 }
             }
+            else if (isHandColliding[handsDirection])
+            {
+                Vector3 normal = lastHitNormal[handsDirection];
+                
+                float pushing = Vector3.Dot(ray, -normal);
+                
+                if (pushing > 0.001f)
+                {
+                    doElevation = true;
+                    Vector3 elevation = normal * pushing;
 
-            nextHandPositionMap[handsDirection] = newRefPos;
+                    if (elevation.sqrMagnitude > totalElevation.sqrMagnitude)
+                    {
+                        totalElevation = elevation;
+                    }
+                }
+                else
+                {
+                    isHandColliding[handsDirection] = false;
+                }
+            }
+
+            nextHandPositionMap[handsDirection] = targetPosition;
         }
 
-        characterRigidbody.MovePosition(character.position + totalElevation);
+        if (doElevation)
+        {
+            const float maxElevation = 0.3f;
+            if (totalElevation.magnitude > maxElevation)
+            {
+                totalElevation = totalElevation.normalized * maxElevation;
+            }
+
+            character.position += totalElevation;
+        }
 
         foreach (var hand in _hands)
         {
@@ -79,7 +114,10 @@ public partial class RelativePositionControl
             Transform referenceTransform = _referenceMap[handsDirection];
             Transform targetTransform = hand.Value;
 
-            referenceTransform.SetPositionAndRotation(nextHandPositionMap[handsDirection] + totalElevation, targetTransform.rotation * initialHandsRotations[handsDirection]);
+            referenceTransform.SetPositionAndRotation(
+                nextHandPositionMap[handsDirection] + totalElevation,
+                targetTransform.rotation * initialHandsRotations[handsDirection]
+            );
         }
 
         RigControl.Instance.UpdateWindParticle(characterRigidbody.linearVelocity);

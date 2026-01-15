@@ -8,7 +8,6 @@ public partial class RelativePositionControl
 
     private void FlyingFixedUpdate()
     {
-        TogglePhysics(true);
     }
 
     private void FlyingUpdate()
@@ -21,11 +20,7 @@ public partial class RelativePositionControl
 
             Vector3 targetPosition = ClampArm(handsDirection, character.position + targetTransform.position - _origin.position);
             Vector3 newRefPos = targetPosition;
-            Vector3 currentPos = referenceTransform.position;
             
-            Vector3 lastPosition = lastRelPositions[handsDirection].Position;
-            Vector3 ray = targetPosition - lastPosition;
-
             Vector3 handsSpeed = GetVelocity(handsDirection, targetTransform.position, tick.ElapsedMilliseconds);
 
             // Disable moving backward
@@ -49,17 +44,6 @@ public partial class RelativePositionControl
             {
                 float viscocityMultiplier = Mathf.Pow(handsSpeed.sqrMagnitude, _flyingShootPowerExponent);
                 Shoot(handsDirection, _flyingShootPowerMultiplier * viscocityMultiplier * -handsSpeed);
-            }
-            else
-            {
-                if (Physics.OverlapSphereNonAlloc(currentPos, 0.00001f, collisionResult, _obstacleLayers) == 0)
-                {
-                    if (Physics.Raycast(lastPosition, ray.normalized, out RaycastHit hit, Mathf.Max(0.00005f, ray.magnitude), _obstacleLayers))
-                    {
-                        Shoot(handsDirection, hit.normal, -handsSpeed, false);
-                        newRefPos = hit.point + 0.01f * hit.normal;
-                    }
-                }
             }
 
             referenceTransform.SetPositionAndRotation(newRefPos, targetTransform.rotation * initialHandsRotations[handsDirection]);

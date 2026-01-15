@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ControlSwitch : MonoBehaviour
 {
-    [SerializeField] private float FlyingMinimumHeight = 3.0f;
+    [SerializeField] private float FlyingMinimumHeight = 4.0f;
 
     private readonly RaycastHit[] hits = new RaycastHit[1];
 
