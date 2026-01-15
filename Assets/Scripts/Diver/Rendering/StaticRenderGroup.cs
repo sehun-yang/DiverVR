@@ -22,7 +22,7 @@ public class StaticRenderGroup : RenderGroup
         var enemiesArray = enemies.AsArray();
 
         var handle = new JobHandle();
-        handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime);
+        handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime, Physics.gravity);
         handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Physics.gravity);
 
         NativeArray<bool> isDead = default;

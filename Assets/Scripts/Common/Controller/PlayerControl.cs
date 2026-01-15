@@ -108,8 +108,6 @@ public class PlayerControl : NetworkBehaviour
                 child.GetComponent<ParticleSystem>().Stop();
             }
         }
-
-        print(InhaleModuleEnabled);
     }
 
     private void OnButtonPerformed(ControllerButtonType type, bool on)

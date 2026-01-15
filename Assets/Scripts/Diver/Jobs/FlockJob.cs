@@ -13,6 +13,8 @@ public struct FlockJob : IJobParallelFor
     [ReadOnly] public float DeltaTime;
     [ReadOnly] public float MaxY;
 
+    private const float MaxAcceleration = 20;
+
     public void Execute(int index)
     {
         var enemy = Enemies[index];
@@ -68,28 +70,22 @@ public struct FlockJob : IJobParallelFor
             steer += math.normalizesafe(toCenter) * Settings.ReturnWeight;
         }
 
-        float3 newVel = myVel + steer * DeltaTime;
-        float speed = math.length(newVel);
-
-        if (speed > Settings.MaxSpeed)
+        if (myPos.y > MaxY * 0.95f)
         {
-            newVel = math.normalizesafe(newVel) * Settings.MaxSpeed;
-        }
-        else if (speed < Settings.MinSpeed && speed > 0.001f)
-        {
-            newVel = math.normalizesafe(newVel) * Settings.MinSpeed;
+            steer.y -= Settings.MaxSpeed;
         }
 
-        if (myPos.y > MaxY * 0.99f)
+        float steerAcceleration = math.length(steer);
+        if (steerAcceleration > MaxAcceleration)
         {
-            newVel = new float3(newVel.x, -math.abs(newVel.y), newVel.z);
+            steer = steer * MaxAcceleration / steerAcceleration;
         }
 
-        enemy.Velocity = newVel;
+        enemy.Acceleration += steer;
 
-        if (math.lengthsq(newVel) > 0.001f)
+        if (math.lengthsq(myVel) > 0.001f)
         {
-            float3 dir = math.normalizesafe(newVel);
+            float3 dir = math.normalizesafe(myVel);
             quaternion targetRot = quaternion.LookRotationSafe(dir, math.up());
             enemy.Rotation = math.slerp(enemy.Rotation, targetRot, DeltaTime * Settings.RotationSpeed);
         }

@@ -23,8 +23,7 @@ public partial class RelativePositionControl
 
     private void DefaultUpdate()
     {
-        Vector3 totalElevation = Vector3.zero;
-        bool doElevation = false;
+        Vector3 maxElevation = Vector3.zero;
 
         foreach (var hand in _hands)
         {
@@ -45,12 +44,11 @@ public partial class RelativePositionControl
 
             if (Physics.Raycast(lastPosition, ray.normalized, out RaycastHit hit, ray.magnitude, _obstacleLayers))
             {
-                doElevation = true;
                 Vector3 elevation = ApplyRepulsivePower(targetPosition, hit.point, hit.normal);
 
-                if (elevation.sqrMagnitude > totalElevation.sqrMagnitude)
+                if (elevation.sqrMagnitude > maxElevation.sqrMagnitude)
                 {
-                    totalElevation = elevation;
+                    maxElevation = elevation;
                 }
 
                 if (!isShotRetained)
@@ -62,10 +60,7 @@ public partial class RelativePositionControl
             nextHandPositionMap[handsDirection] = targetPosition;
         }
 
-        if (doElevation)
-        {
-            character.position += totalElevation;
-        }
+        character.position += maxElevation;
 
         foreach (var hand in _hands)
         {
@@ -73,7 +68,7 @@ public partial class RelativePositionControl
             Transform referenceTransform = _referenceMap[handsDirection];
             Transform targetTransform = hand.Value;
 
-            referenceTransform.SetPositionAndRotation(nextHandPositionMap[handsDirection] + totalElevation, targetTransform.rotation * initialHandsRotations[handsDirection]);
+            referenceTransform.SetPositionAndRotation(nextHandPositionMap[handsDirection] + maxElevation, targetTransform.rotation * initialHandsRotations[handsDirection]);
         }
 
         RigControl.Instance.UpdateWindParticle(characterRigidbody.linearVelocity);

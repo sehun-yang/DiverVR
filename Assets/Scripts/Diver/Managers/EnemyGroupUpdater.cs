@@ -23,7 +23,7 @@ public static class EnemyGroupUpdater
         {
             Enemies = enemies,
             InhaleOrigin = RelativePositionControl.Instance.MyPlayerControl.RightHandPosition,
-            CaptureDistanceSq = 0.1f * 0.1f,
+            CaptureDistanceSq = 0.2f * 0.2f,
             IsDead = isDead
         };
 
@@ -99,7 +99,7 @@ public static class EnemyGroupUpdater
         return default;
     }
 
-    public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
     {
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
@@ -111,7 +111,8 @@ public static class EnemyGroupUpdater
                 InhaleStrength = ModuleManager.Instance.InhaleModule.InhaleStrength,
                 ForwardDirection = RelativePositionControl.Instance.MyPlayerControl.RightArmForward,
                 ConeAngle = ModuleManager.Instance.InhaleModule.ConeAngle,
-                DeltaTime = deltaTime,
+                Gravity = gravity,
+                DeltaTime = deltaTime
             };
 
             return job.ScheduleByRef(count, 32, handle);

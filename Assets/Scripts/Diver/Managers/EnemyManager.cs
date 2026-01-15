@@ -115,8 +115,8 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         var renderParams = new RenderParams(enemyData.Material)
         {
             worldBounds = new Bounds(Vector3.zero, Vector3.one * 10000f),
-            shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-            receiveShadows = false
+            shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+            receiveShadows = true
         };
 
         RenderMeshInstancedAll(ref renderParams, enemyData.Mesh, group.Matrices, visibleCount);

@@ -33,7 +33,7 @@ public class FlockGroup : RenderGroup
         var handle = new JobHandle();
         handle = EnemyGroupUpdater.UpdateFlockGroup(handle, enemiesArray, count, this, deltaTime);
         handle = EnemyGroupUpdater.AvoidPlayer(handle, enemiesArray, count, deltaTime);
-        handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime);
+        handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime, Vector3.zero);
         handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Vector3.zero);
         handle = EnemyGroupUpdater.UpdateAnimation(handle, enemiesArray, count, deltaTime);
 
