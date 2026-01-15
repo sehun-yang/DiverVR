@@ -254,6 +254,9 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
             case LocomotionControl.Swim:
                 SwimFixedUpdate();
                 break;
+            case LocomotionControl.Flying:
+                FlyingFixedUpdate();
+                break;
             default:
                 break;
         }
@@ -274,6 +277,9 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
                 break;
             case LocomotionControl.Swim:
                 SwimUpdate();
+                break;
+            case LocomotionControl.Flying:
+                FlyingUpdate();
                 break;
             default:
                 break;

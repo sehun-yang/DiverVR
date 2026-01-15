@@ -22,6 +22,7 @@ public class PlayerControl : NetworkBehaviour
     [Networked] public NetworkBool LeftHandPinky { get; set; }
     [Networked] public NetworkBool RightHandIndex { get; set; }
     [Networked] public NetworkBool RightHandPinky { get; set; }
+    [Networked, OnChangedRender(nameof(ToggleInhaleModule))] public NetworkBool InhaleModuleEnabled { get; set; }
 
     [SerializeField] private RigBuilder _rigBuilder;
     [SerializeField] private Rigidbody _bodyRigidbody;
@@ -58,6 +59,8 @@ public class PlayerControl : NetworkBehaviour
     [SerializeField] private Transform _rightHandPinkyBone2;
     [SerializeField] private Transform _rightHandThumbBone;
     [SerializeField] private Transform _rightHandThumbBone2;
+    
+    [SerializeField] private Transform InhaleModuleParent;
 
     private readonly Quaternion FingerFoldRotation = Quaternion.Euler(0, 0, 90);
     private readonly Quaternion FingerUnfoldRotation = Quaternion.Euler(0, 0, 0);
@@ -91,6 +94,23 @@ public class PlayerControl : NetworkBehaviour
         { ControllerButtonType.RightGrip, false},
         { ControllerButtonType.RightTrigger, false}
     };
+
+    public void ToggleInhaleModule()
+    {
+        foreach (Transform child in InhaleModuleParent.transform)
+        {
+            if (InhaleModuleEnabled)
+            {
+                child.GetComponent<ParticleSystem>().Play();
+            }
+            else
+            {
+                child.GetComponent<ParticleSystem>().Stop();
+            }
+        }
+
+        print(InhaleModuleEnabled);
+    }
 
     private void OnButtonPerformed(ControllerButtonType type, bool on)
     {

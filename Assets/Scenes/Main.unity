@@ -273,6 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fca384817a973c478659b92d1244d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelativePositionControl
+  _flyingShootPowerMultiplier: 1
+  _flyingShootPowerExponent: 0.25
+  _flyingShootSpeed: 3
   started: 0
   _jumpSound: {fileID: 0}
   _deviceTransform:
@@ -287,14 +290,9 @@ MonoBehaviour:
     m_Bits: 8
   _breakSpeed: 2.3
   _shootSpeed: 0.2
-  _contactCooltime: 0
   _shootPowerMultiplier: 0.25
-  _contactBreakDistance: 0.8
-  _contactBreakRadiusNormalDirection: 0.012
   _normalTerrainMaxClimbAngle: 180
   _maxArmLength: 0.75
-  _contactImpulseAmplitude: 0.3
-  _contactImpulseDuration: 0.1
   _shotRetainTime: 100
   _underWaterBuoyancy: {x: 0, y: 8, z: 0}
   _swimShootPowerMultiplier: 1
@@ -5259,7 +5257,7 @@ MonoBehaviour:
   asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   referenceMap:
     _items:
-    - Key: {fileID: 453049451}
+    - Key: {fileID: 267699245}
       Value: 0
 --- !u!4 &248084226
 Transform:
@@ -5276,6 +5274,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267699245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/Inhale
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 851b8445-a172-4d30-8895-72767989178a
 --- !u!1 &288326321
 GameObject:
   m_ObjectHideFlags: 0
@@ -5425,7 +5437,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModuleManager
   InhaleModule:
-    Enabled: 0
     InhaleStrength: 100
     MaxInhaleRange: 50
     ConeAngle: 50
@@ -5737,20 +5748,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
---- !u!114 &453049451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/Inhale
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 851b8445-a172-4d30-8895-72767989178a
 --- !u!1 &478022479
 GameObject:
   m_ObjectHideFlags: 0
@@ -10941,6 +10938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce4b0e5aad692042a7d9df9939ed524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlSwitch
+  FlyingMinimumHeight: 3
 --- !u!4 &667940379
 Transform:
   m_ObjectHideFlags: 0
@@ -12844,63 +12842,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee87eae3c1e726142ab665bb045f373a, type: 3}
---- !u!1001 &6332053835503451616
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6902385680697711518, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_Name
-      value: fxSuction
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.703
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.839
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.244
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6919357837109785751, guid: dc451de535c04f140ba0f2188f750460, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dc451de535c04f140ba0f2188f750460, type: 3}
 --- !u!1001 &7449220017483281593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12977,6 +12918,5 @@ SceneRoots:
   - {fileID: 976703893}
   - {fileID: 2116020545}
   - {fileID: 138038345}
-  - {fileID: 6332053835503451616}
   - {fileID: 7449220017483281593}
   - {fileID: 1741759608008782254}

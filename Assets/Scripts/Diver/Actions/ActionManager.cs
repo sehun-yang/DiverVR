@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class ActionManager : SingletonMonoBehaviour<ActionManager>
 {
-    private List<IActionPerformer> handlers = new ();
+    private readonly List<IActionPerformer> handlers = new ();
 
     private void Start()
     {

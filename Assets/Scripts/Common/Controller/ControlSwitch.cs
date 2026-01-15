@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class ControlSwitch : MonoBehaviour
 {
+    [SerializeField] private float FlyingMinimumHeight = 3.0f;
+
+    private readonly RaycastHit[] hits = new RaycastHit[1];
+
     private LocomotionControl currentControlInternal;
     private LocomotionControl currentControl
     {
@@ -22,7 +26,14 @@ public class ControlSwitch : MonoBehaviour
         {
             if (myCharacter.transform.position.y > 0)
             {
-                currentControl = LocomotionControl.Default;
+                if (Physics.RaycastNonAlloc(RigControl.Instance.transform.position, -Vector3.up, hits, FlyingMinimumHeight, 1 << 3) == 0)
+                {
+                    currentControl = LocomotionControl.Flying;
+                }
+                else
+                {
+                    currentControl = LocomotionControl.Default;
+                }
             }
             else
             {
