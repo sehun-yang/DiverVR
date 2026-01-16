@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RigControl : SingletonMonoBehaviour<RigControl>
 {
+    public Camera mainCamera;
+
     [SerializeField] private ParticleSystem windParticle;
 
     public void UpdateWindParticle(Vector3 bodyVelocity)

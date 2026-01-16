@@ -24,7 +24,7 @@ public class FlockGroup : RenderGroup
         AnimationData = new NativeArray<float2>(currentCapacity, Allocator.Persistent);
     }
 
-    public override void UpdateGroup(float deltaTime)
+    public override void Update(float deltaTime)
     {
         var enemies = Enemies;
         int count = enemies.Length;
@@ -37,19 +37,6 @@ public class FlockGroup : RenderGroup
         handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Vector3.zero);
         handle = EnemyGroupUpdater.UpdateAnimation(handle, enemiesArray, count, deltaTime);
 
-        NativeArray<bool> isDead = default;
-        if (ModuleManager.Instance.InhaleModule.Enabled)
-        {
-            isDead = new NativeArray<bool>(count, Allocator.TempJob);
-            handle = EnemyGroupUpdater.MarkDeadEnemies(handle, enemiesArray, count, isDead);
-        }
-
-        handle.Complete();
-
-        if (ModuleManager.Instance.InhaleModule.Enabled)
-        {
-            EnemyGroupUpdater.RemoveDeadEnemies(this, isDead);
-            isDead.Dispose();
-        }
+        EnemyGroupUpdater.InhalePostProcess(handle, enemiesArray, count, this);
     }
 }

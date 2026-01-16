@@ -23,7 +23,12 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     public void SpawnAll()
     {
         int toSpawn = maxSpawnAmount - CurrentSpawnCount;
-        for (int i = 0; i < toSpawn; i++)
+        SpawnN(toSpawn);
+    }
+
+    public void SpawnN(int count)
+    {
+        for (int i = 0; i < count; i++)
         {
             SpawnOne();
         }
@@ -32,12 +37,17 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     public void SpawnOne()
     {
         if (groupId < 0 || EnemyManager.Instance == null) return;
-        if (CurrentSpawnCount >= maxSpawnAmount) return;
+        if (autoSpawn && CurrentSpawnCount >= maxSpawnAmount) return;
 
+        var (pos, rot) = GetSpawnPosition();
+
+        EnemyManager.Instance.SpawnEnemy(groupId, pos, rot);
+    }
+
+    protected virtual (Vector3, Quaternion) GetSpawnPosition()
+    {
         Vector3 randomOffset = Random.insideUnitSphere * spawnBound;
-        Vector3 position = transform.position + randomOffset;
-
-        EnemyManager.Instance.SpawnEnemy(groupId, position);
+        return (transform.position + randomOffset, Quaternion.identity);
     }
 
     private void OnDestroy()
@@ -50,10 +60,7 @@ public abstract class EnemySpawnerBase : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, spawnBound);
-        
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, spawnBound * 2f);
+        Gizmos.DrawWireSphere(transform.position, spawnBound);
     }
 }

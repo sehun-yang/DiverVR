@@ -10,7 +10,7 @@ public class OreSpawner : EnemySpawnerBase
             return;
         }
 
-        var group = new StaticRenderGroup(groupId, enemyTypeId);
+        var group = new InhaleBaseGroup(groupId, enemyTypeId);
         groupId = EnemyManager.Instance.RegisterRenderGroup(group);
     }
 }

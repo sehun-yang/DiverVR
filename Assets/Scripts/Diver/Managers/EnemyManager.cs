@@ -22,7 +22,9 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
     private void Start()
     {
         if (renderCamera == null)
-            renderCamera = Camera.main;
+        {
+            renderCamera = RigControl.Instance.mainCamera;
+        }
 
         frustumPlanes = new NativeArray<float4>(6, Allocator.Persistent);
         cameraPlanes = new NativeArray<Plane>(6, Allocator.Persistent);
@@ -47,7 +49,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             var group = kvp.Value;
             if (group.Count == 0) continue;
 
-            group.UpdateGroup(deltaTime);
+            group.Update(deltaTime);
         }
 
         ExtractFrustumPlanes();
@@ -79,7 +81,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         var visibleCountRef = new NativeReference<int>(Allocator.TempJob);
 
 
-        if (enemyData.GPUSkinning)
+        if (enemyData.AnimationGPUSkinning)
         {
             var collectJob = new CollectRenderDataJob
             {
@@ -107,7 +109,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         if (visibleCount == 0) return;
 
 
-        if (enemyData.GPUSkinning)
+        if (enemyData.AnimationGPUSkinning)
         {
             ComputeBufferContainer.Instance.EnemyRenderSystemAnimationTimeBuffer.SetData(group.AnimationData, 0, 0, visibleCount);
         }
@@ -156,7 +158,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         for (int enemyId = 0; enemyId < enemyDataAsset.EnemyData.Length; enemyId++)
         {
             var data = enemyDataAsset.EnemyData[enemyId];
-            if (!data.GPUSkinning) return;
+            if (!data.AnimationGPUSkinning) return;
             var material = data.Material;
 
             var boneWeightBuffer = CreateBoneWeightBuffer(data.Mesh);
@@ -245,7 +247,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         return group.Enemies.Length;
     }
 
-    public void SpawnEnemy(int groupId, Vector3 position)
+    public void SpawnEnemy(int groupId, Vector3 position, Quaternion rotation)
     {
         if (!renderingGroups.TryGetValue(groupId, out var group)) return;
 
@@ -253,13 +255,13 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
         var enemy = new EnemyInstance
         {
-            Position = position,
-            Rotation = quaternion.identity,
+            Position = position + enemyData.Pivot,
+            Rotation = rotation * enemyData.BaseRotation,
             Velocity = float3.zero,
             EnemyTypeId = group.EnemyTypeId,
             AnimationTime = 0,
             AnimationIndex = 0,
-            AnimationLength = enemyData.GPUSkinning ? enemyData.AnimationAsset.clips[0].duration : 0,
+            AnimationLength = enemyData.AnimationGPUSkinning ? enemyData.AnimationAsset.clips[0].duration : 0,
             BoundingRadius = enemyData.Mesh.bounds.extents.magnitude,
             IsVisible = 1
         };

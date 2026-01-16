@@ -4,8 +4,10 @@ using UnityEngine;
 [Serializable]
 public class EnemyData
 {
-    public bool GPUSkinning;
+    public bool AnimationGPUSkinning;
     public BakedAnimationAsset AnimationAsset;
+    public Vector3 Pivot = Vector3.zero;
+    public Quaternion BaseRotation = Quaternion.identity;
     public Mesh Mesh;
     public Material Material;
 }

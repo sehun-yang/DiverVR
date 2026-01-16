@@ -122,6 +122,25 @@ public static class EnemyGroupUpdater
             return handle;
         }
     }
+    
+
+    public static void InhalePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group)
+    {
+        NativeArray<bool> isDead = default;
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            isDead = new NativeArray<bool>(count, Allocator.TempJob);
+            handle = MarkDeadEnemies(handle, enemies, count, isDead);
+        }
+
+        handle.Complete();
+
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            RemoveDeadEnemies(group, isDead);
+            isDead.Dispose();
+        }
+    }
 
     public static JobHandle UpdateAnimation(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
     {

@@ -66,7 +66,7 @@ public abstract class RenderGroup : IDisposable
         if (AnimationData.IsCreated) AnimationData.Dispose();
     }
 
-    public virtual void UpdateGroup(float deltaTime)
+    public virtual void Update(float deltaTime)
     {
         
     }
