@@ -80,7 +80,6 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
         var visibleCountRef = new NativeReference<int>(Allocator.TempJob);
 
-
         if (enemyData.AnimationGPUSkinning)
         {
             var collectJob = new CollectRenderDataJob

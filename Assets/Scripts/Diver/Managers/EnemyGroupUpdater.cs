@@ -70,17 +70,6 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle PhysicsNoCollision(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
-    {
-        var job = new PhysicsMovementJob
-        {
-            Enemies = enemies,
-            DeltaTime = deltaTime,
-        };
-
-        return job.ScheduleByRef(count, 32, handle);
-    }
-
     public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
     {
         var raycastCommands = new NativeArray<SpherecastCommand>(count, Allocator.TempJob);
@@ -122,7 +111,7 @@ public static class EnemyGroupUpdater
             DeltaTime = deltaTime
         };
 
-        return job.ScheduleByRef(count, 16, handle);
+        return job.ScheduleByRef(count, 128, handle);
     }
 
     public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
