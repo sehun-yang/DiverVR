@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
@@ -6,12 +7,13 @@ public static class EnemyGroupUpdater
 {
     public const float WaterSurfaceHeight = 0f;
 
-    public static void RemoveDeadEnemies(RenderGroup group, NativeArray<bool> isDead)
+    public static void RemoveDeadEnemies(RenderGroup group, NativeArray<bool> isDead, Action<EnemyInstance> callback)
     {
         for (int i = isDead.Length - 1; i >= 0; i--)
         {
             if (isDead[i])
             {
+                callback?.Invoke(group.Enemies[i]);
                 group.Enemies.RemoveAtSwapBack(i);
             }
         }
@@ -24,6 +26,17 @@ public static class EnemyGroupUpdater
             Enemies = enemies,
             InhaleOrigin = RelativePositionControl.Instance.MyPlayerControl.RightHandPosition,
             CaptureDistanceSq = 0.2f * 0.2f,
+            IsDead = isDead
+        };
+
+        return job.ScheduleByRef(count, 64, handle);
+    }
+
+    public static JobHandle MarkDeadEnemiesWithHealth(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, NativeArray<bool> isDead)
+    {
+        var job = new HealthDeadEnemiesJob
+        {
+            Enemies = enemies,
             IsDead = isDead
         };
 
@@ -99,6 +112,19 @@ public static class EnemyGroupUpdater
         return default;
     }
 
+    public static JobHandle ScaleTo(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, float targetScale, float scalingSpeed)
+    {
+        var job = new ScaleJob
+        {
+            Enemies = enemies,
+            TargetScale = targetScale,
+            ScaleSpeed = scalingSpeed,
+            DeltaTime = deltaTime
+        };
+
+        return job.ScheduleByRef(count, 16, handle);
+    }
+
     public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
     {
         if (ModuleManager.Instance.InhaleModule.Enabled)
@@ -122,7 +148,29 @@ public static class EnemyGroupUpdater
             return handle;
         }
     }
-    
+
+    public static JobHandle InhaleDamage(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, float damage)
+    {
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            var job = new InhaleDamageJob
+            {
+                Enemies = enemies,
+                MaxDamage = damage,
+                InhaleOrigin = RelativePositionControl.Instance.MyPlayerControl.RightHandPosition,
+                MaxInhaleRange = ModuleManager.Instance.InhaleModule.MaxInhaleRange,
+                ForwardDirection = RelativePositionControl.Instance.MyPlayerControl.RightArmForward,
+                ConeAngle = ModuleManager.Instance.InhaleModule.ConeAngle,
+                DeltaTime = deltaTime
+            };
+
+            return job.ScheduleByRef(count, 32, handle);
+        }
+        else
+        {
+            return handle;
+        }
+    }
 
     public static void InhalePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group)
     {
@@ -137,7 +185,25 @@ public static class EnemyGroupUpdater
 
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
-            RemoveDeadEnemies(group, isDead);
+            RemoveDeadEnemies(group, isDead, null);
+            isDead.Dispose();
+        }
+    }
+
+    public static void InhaleDamagePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group, Action<EnemyInstance> callback)
+    {
+        NativeArray<bool> isDead = default;
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            isDead = new NativeArray<bool>(count, Allocator.TempJob);
+            handle = MarkDeadEnemiesWithHealth(handle, enemies, count, isDead);
+        }
+
+        handle.Complete();
+
+        if (ModuleManager.Instance.InhaleModule.Enabled)
+        {
+            RemoveDeadEnemies(group, isDead, callback);
             isDead.Dispose();
         }
     }

@@ -39,15 +39,29 @@ public abstract class EnemySpawnerBase : MonoBehaviour
         if (groupId < 0 || EnemyManager.Instance == null) return;
         if (autoSpawn && CurrentSpawnCount >= maxSpawnAmount) return;
 
-        var (pos, rot) = GetSpawnPosition();
+        var (pos, rot, scale) = GetSpawnTRS();
 
-        EnemyManager.Instance.SpawnEnemy(groupId, pos, rot);
+        EnemyManager.Instance.SpawnEnemy(groupId, pos, rot, scale);
     }
 
-    protected virtual (Vector3, Quaternion) GetSpawnPosition()
+    public void SpawnNAt(int count, Vector3 position)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            SpawnOneAt(position);
+        }
+    }
+
+    public void SpawnOneAt(Vector3 position)
+    {
+        Vector3 randomOffset = Random.insideUnitSphere * 0.5f;
+        EnemyManager.Instance.SpawnEnemy(groupId, position + randomOffset, Quaternion.identity, 1);
+    }
+
+    protected virtual (Vector3, Quaternion, float) GetSpawnTRS()
     {
         Vector3 randomOffset = Random.insideUnitSphere * spawnBound;
-        return (transform.position + randomOffset, Quaternion.identity);
+        return (transform.position + randomOffset, Quaternion.identity, 1);
     }
 
     private void OnDestroy()

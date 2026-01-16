@@ -5,6 +5,7 @@ using UnityEngine;
 public class OreChunkGroup : RenderGroup
 {
     private OreSpawner oreSpawner;
+    [SerializeField] private int orePerChunk = 5;
 
     public OreChunkGroup(OreSpawner masterOreSpawner, int groupId, int enemyTypeId)
     {
@@ -25,6 +26,13 @@ public class OreChunkGroup : RenderGroup
         var enemiesArray = enemies.AsArray();
 
         var handle = new JobHandle();
-        //handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Physics.gravity);
+        handle = EnemyGroupUpdater.ScaleTo(handle, enemiesArray, count, deltaTime, 1, 2);
+        handle = EnemyGroupUpdater.InhaleDamage(handle, enemiesArray, count, deltaTime, 30);
+        EnemyGroupUpdater.InhaleDamagePostProcess(handle, enemiesArray, count, this, OnChunkBroken);
+    }
+
+    private void OnChunkBroken(EnemyInstance instance)
+    {
+        oreSpawner.SpawnNAt(orePerChunk, instance.Position);
     }
 }

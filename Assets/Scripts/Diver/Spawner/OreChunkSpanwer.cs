@@ -20,7 +20,7 @@ public class OreChunkSpawner : EnemySpawnerBase
         groupId = EnemyManager.Instance.RegisterRenderGroup(group);
     }
     
-    protected override (Vector3, Quaternion) GetSpawnPosition()
+    protected override (Vector3, Quaternion, float) GetSpawnTRS()
     {
         for (int i = 0; i < MaxTryCount; i++)
         {
@@ -28,12 +28,12 @@ public class OreChunkSpawner : EnemySpawnerBase
             
             if (Physics.RaycastNonAlloc(transform.position, direction, raycastHits, spawnBound, 1 << 3) > 0)
             {
-                return (raycastHits[0].point, Quaternion.LookRotation(raycastHits[0].normal));
+                return (raycastHits[0].point, Quaternion.LookRotation(raycastHits[0].normal), 0);
             }
         }
 
         Debug.LogWarning($"Cannot find spawn position for enemy #{enemyTypeId}");
-        return (transform.position, Quaternion.identity);
+        return (transform.position, Quaternion.identity, 0);
     }
 
     private static Vector3 GetHaltonDirection(int index)

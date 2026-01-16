@@ -21,7 +21,7 @@ public struct CollectRenderDataJobNoAnimation : IJob
             
             if (enemy.IsVisible == 0) continue;
             
-            Matrices[count] = float4x4.TRS(enemy.Position, enemy.Rotation, new float3(1, 1, 1));
+            Matrices[count] = float4x4.TRS(enemy.Position, enemy.Rotation, new float3(enemy.Scale, enemy.Scale, enemy.Scale));
             count++;
         }
         

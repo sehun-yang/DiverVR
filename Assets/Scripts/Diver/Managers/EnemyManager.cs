@@ -247,7 +247,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         return group.Enemies.Length;
     }
 
-    public void SpawnEnemy(int groupId, Vector3 position, Quaternion rotation)
+    public void SpawnEnemy(int groupId, Vector3 position, Quaternion rotation, float scale)
     {
         if (!renderingGroups.TryGetValue(groupId, out var group)) return;
 
@@ -257,13 +257,15 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         {
             Position = position + enemyData.Pivot,
             Rotation = rotation * enemyData.BaseRotation,
+            Scale = scale,
             Velocity = float3.zero,
             EnemyTypeId = group.EnemyTypeId,
             AnimationTime = 0,
             AnimationIndex = 0,
             AnimationLength = enemyData.AnimationGPUSkinning ? enemyData.AnimationAsset.clips[0].duration : 0,
             BoundingRadius = enemyData.Mesh.bounds.extents.magnitude,
-            IsVisible = 1
+            IsVisible = 1,
+            Health = 100,
         };
 
         group.AddEnemy(enemy);

@@ -54,8 +54,9 @@ public class MainServer : SingletonMonoBehaviour<MainServer>
         if (result.Ok)
         {
             ActiveRunner = networkRunner;
-
+#if !UNITY_EDITOR
             StartVoiceServer(null);
+#endif
             await Task.Delay(1000);
         }
         else
