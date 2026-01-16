@@ -19,7 +19,6 @@ public struct InhaleJob : IJobParallelFor
     private const float CaptureRadius = 0.8f;
     private const float SpiralInwardSpeed = 4;
     private const float SpiralAngularSpeed = 24;
-    private const float MinSpiralRadius = 0.3f;
     private const float RadiusShrinkSpeed = 3f;
 
     public void Execute(int index)
@@ -38,6 +37,7 @@ public struct InhaleJob : IJobParallelFor
             
             if (len < CaptureRadius || cosAngle >= cosHalfAngle)
             {
+                enemy.Rotation = math.mul(enemy.Rotation, quaternion.EulerXYZ(10 * DeltaTime / len, 20 * DeltaTime / len, 30 * DeltaTime / len));
                 if (len < CaptureRadius)
                 {
                     enemy.Velocity = float3.zero;
@@ -48,7 +48,7 @@ public struct InhaleJob : IJobParallelFor
                     float3 radialOffset = toEnemy - alongAxis * axis;
                     float radius = math.length(radialOffset);
                     
-                    float3 axialPull = -axis * math.sign(alongAxis) * SpiralInwardSpeed;
+                    float3 axialPull = math.sign(alongAxis) * SpiralInwardSpeed * -axis;
                     
                     float3 radialPull = float3.zero;
                     if (radius > 0.01f)
