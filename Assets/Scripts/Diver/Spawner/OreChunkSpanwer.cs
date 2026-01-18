@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class OreChunkSpawner : EnemySpawnerBase
 {
+    [Header("Ore Settings")]
     [SerializeField] private int oreId;
     [SerializeField] private int orePerChunk;
 

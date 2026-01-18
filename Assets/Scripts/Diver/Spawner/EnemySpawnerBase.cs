@@ -6,11 +6,10 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     [Header("Spawn Settings")]
     public int enemyTypeId;
     public int maxSpawnAmount = 10;
-    public uint spawnerId = 0;
     public float spawnBound = 5f;
 
+    protected uint spawnerId = 0;
     protected RenderGroup group;
-
     protected int CurrentSpawnCount = 0;
 
     protected virtual void Start()

@@ -47,10 +47,8 @@ public partial class RelativePositionControl : SingletonMonoBehaviour<RelativePo
     private readonly Dictionary<HandsDirection, SphereCollider> _referenceColliderMap = new();
     [SerializeField] private Transform _origin;
     [SerializeField] private LayerMask _obstacleLayers;
-    [SerializeField] private float _breakSpeed = 5;
     [SerializeField] private float _shootSpeed = 2;
     [SerializeField] private float _shootPowerMultiplier = 50f;
-    [SerializeField] private float _normalTerrainMaxClimbAngle = 60f;
     [SerializeField] private float _maxArmLength = 5f;
     [SerializeField] private long _shotRetainTime = 70;
 

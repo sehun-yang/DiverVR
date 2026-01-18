@@ -10,16 +10,17 @@ using UnityEngine;
 public class MainServer : SingletonMonoBehaviour<MainServer>
 {
     public static NetworkRunner? ActiveRunner;
-
+#pragma warning disable CS8618
     [SerializeField] private GameObject networkRunnerPrefab;
     [SerializeField] private Recorder recorder;
+#pragma warning restore CS8618
     private NetworkRunner? networkRunner;
     private FusionVoiceClient? voiceClient;
     private bool connecting = false;
 
     private void Start()
     {
-        StartServer(null);
+        _ = StartServer(null);
     }
 
     public async void StartVoiceServer(Photon.Realtime.AuthenticationValues? authentication)

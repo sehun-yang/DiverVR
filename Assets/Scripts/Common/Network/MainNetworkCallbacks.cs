@@ -13,7 +13,7 @@ public class MainNetworkCallbacks : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        MainServer.Instance.StartServer(null);
+        _ = MainServer.Instance.StartServer(null);
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
