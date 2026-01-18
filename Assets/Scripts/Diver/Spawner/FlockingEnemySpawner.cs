@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FlockingEnemySpawner : EnemySpawnerBase
@@ -12,15 +13,9 @@ public class FlockingEnemySpawner : EnemySpawnerBase
     public float minSpeed = 1f;
     public float maxSpeed = 5f;
     public float rotationSpeed = 5f;
-
-    private void Start()
+    
+    protected override Func<RenderGroup> GetGroupFactory()
     {
-        if (EnemyManager.Instance == null)
-        {
-            Debug.LogError("EnemyManager not found!");
-            return;
-        }
-
         var settings = new FlockSettings
         {
             NeighborDistance = neighborDistance,
@@ -34,7 +29,6 @@ public class FlockingEnemySpawner : EnemySpawnerBase
             RotationSpeed = rotationSpeed
         };
 
-        var group = new FlockGroup(groupId, enemyTypeId, transform.position, spawnBound * 2f, settings);
-        groupId = EnemyManager.Instance.RegisterRenderGroup(group);
+        return () => new FlockGroup(enemyTypeId, transform.position, spawnBound * 2f, settings);
     }
 }

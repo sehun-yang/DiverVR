@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class EnemySpawnerBase : MonoBehaviour
@@ -5,19 +6,28 @@ public abstract class EnemySpawnerBase : MonoBehaviour
     [Header("Spawn Settings")]
     public int enemyTypeId;
     public int maxSpawnAmount = 10;
+    public uint spawnerId = 0;
     public float spawnBound = 5f;
-    public bool autoSpawn = true;
 
-    protected int groupId = -1;
+    protected RenderGroup group;
 
-    protected int CurrentSpawnCount => EnemyManager.Instance.GetCount(groupId);
+    protected int CurrentSpawnCount = 0;
+
+    protected virtual void Start()
+    {
+        if (EnemyManager.Instance == null)
+        {
+            Debug.LogError("EnemyManager not found!");
+            return;
+        }
+
+        spawnerId = EnemyManager.Instance.IssueSpawnerId(this);
+        group = EnemyManager.Instance.GetOrAddRenderGroup(GetGroupFactory(), enemyTypeId);
+    }
 
     private void Update()
     {
-        if (autoSpawn)
-        {
-            SpawnOne();
-        }
+        SpawnOne();
     }
 
     public void SpawnAll()
@@ -36,41 +46,52 @@ public abstract class EnemySpawnerBase : MonoBehaviour
 
     public void SpawnOne()
     {
-        if (groupId < 0 || EnemyManager.Instance == null) return;
-        if (autoSpawn && CurrentSpawnCount >= maxSpawnAmount) return;
+        if (group == null || EnemyManager.Instance == null) return;
+        if (CurrentSpawnCount >= maxSpawnAmount) return;
 
         var (pos, rot, scale) = GetSpawnTRS();
 
-        EnemyManager.Instance.SpawnEnemy(groupId, pos, rot, scale);
+        EnemyManager.Instance.SpawnEnemy(group, spawnerId, pos, rot, scale);
+        CurrentSpawnCount += 1;
     }
 
-    public void SpawnNAt(int count, Vector3 position)
+    public static void SpawnNAt(int enemyTypeId, int count, Vector3 position, Quaternion rotation, float scale)
     {
         for (int i = 0; i < count; i++)
         {
-            SpawnOneAt(position);
+            SpawnOneAt(enemyTypeId, position, rotation, scale);
         }
     }
 
-    public void SpawnOneAt(Vector3 position)
+    public static void SpawnOneAt(int enemyTypeId, Vector3 position, Quaternion rotation, float scale)
     {
-        Vector3 randomOffset = Random.insideUnitSphere * 0.5f;
-        EnemyManager.Instance.SpawnEnemy(groupId, position + randomOffset, Quaternion.identity, 1);
+        var group = EnemyManager.Instance.GetOrAddRenderGroup(null, enemyTypeId);
+        if (group != null)
+        {
+            Vector3 randomOffset = UnityEngine.Random.insideUnitSphere * 0.5f;
+            EnemyManager.Instance.SpawnEnemy(group, 0, position + randomOffset, rotation, scale);
+        }
+        else
+        {
+            Debug.LogWarning("Render group must exist before static spawnings");
+        }
+    }
+
+    public void OneRemoved(ref EnemyInstance instance)
+    {
+        CurrentSpawnCount -= 1;
+        OnOneRemoved(ref instance);
     }
 
     protected virtual (Vector3, Quaternion, float) GetSpawnTRS()
     {
-        Vector3 randomOffset = Random.insideUnitSphere * spawnBound;
+        Vector3 randomOffset = UnityEngine.Random.insideUnitSphere * spawnBound;
         return (transform.position + randomOffset, Quaternion.identity, 1);
     }
 
-    private void OnDestroy()
-    {
-        if (groupId >= 0 && EnemyManager.Instance != null)
-        {
-            EnemyManager.Instance.RemoveRenderGroup(groupId);
-        }
-    }
+    protected virtual void OnOneRemoved(ref EnemyInstance instance) {}
+    
+    protected abstract Func<RenderGroup> GetGroupFactory();
 
     private void OnDrawGizmosSelected()
     {

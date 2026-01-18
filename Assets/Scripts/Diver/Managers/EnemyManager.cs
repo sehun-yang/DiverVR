@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -12,10 +13,11 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
     public Camera renderCamera;
 
     private readonly Dictionary<int, RenderGroup> renderingGroups = new();
+    private readonly Dictionary<uint, EnemySpawnerBase> spawners = new();
     private NativeArray<float4> frustumPlanes;
     private NativeArray<Plane> cameraPlanes;
     private bool initialized;
-    private int nextGroupId;
+    private uint nextSpawnerId = 0;
 
     private const int MaxBatchSize = 1023;
 
@@ -232,23 +234,37 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         return buffer;
     }
 
-    public int RegisterRenderGroup(RenderGroup group)
+    public uint IssueSpawnerId(EnemySpawnerBase spawner)
     {
-        int groupId = nextGroupId++;
-        renderingGroups[groupId] = group;
-        return groupId;
+        uint id = ++nextSpawnerId;
+        spawners.Add(id, spawner);
+        return id;
+    }
+
+    public RenderGroup GetOrAddRenderGroup(Func<RenderGroup> factory, int enemyId)
+    {
+        if (renderingGroups.TryGetValue(enemyId, out RenderGroup existGroup))
+        {
+            return existGroup;
+        }
+        else
+        {
+            var group = factory();
+            renderingGroups.Add(enemyId, group);
+            return group;
+        }
     }
     
-    public int GetCount(int groupId)
+    public int GetCount(RenderGroup group)
     {
-        if (!renderingGroups.TryGetValue(groupId, out var group)) return int.MaxValue;
+        if (group == null) return int.MaxValue;
 
         return group.Enemies.Length;
     }
 
-    public void SpawnEnemy(int groupId, Vector3 position, Quaternion rotation, float scale)
+    public void SpawnEnemy(RenderGroup group, uint spawnerId, Vector3 position, Quaternion rotation, float scale)
     {
-        if (!renderingGroups.TryGetValue(groupId, out var group)) return;
+        if (group == null) return;
 
         var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
 
@@ -259,6 +275,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             Scale = scale,
             Velocity = float3.zero,
             EnemyTypeId = group.EnemyTypeId,
+            SpawnerId = spawnerId,
             AnimationTime = 0,
             AnimationIndex = 0,
             AnimationLength = enemyData.AnimationGPUSkinning ? enemyData.AnimationAsset.clips[0].duration : 0,
@@ -270,19 +287,18 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         group.AddEnemy(enemy);
     }
 
-    public void RemoveRenderGroup(int groupId)
+    public void RemoveRenderGroup(RenderGroup group)
     {
-        if (renderingGroups.TryGetValue(groupId, out var group))
-        {
-            group.Dispose();
-            renderingGroups.Remove(groupId);
-        }
+        group.Dispose();
+        renderingGroups.Remove(group.EnemyTypeId);
     }
 
-    public RenderGroup GetRenderGroup(int groupId)
+    public void NotifyDead(uint spawnerId, ref EnemyInstance instance)
     {
-        renderingGroups.TryGetValue(groupId, out var group);
-        return group;
+        if (spawners.TryGetValue(spawnerId, out var spawner))
+        {
+            spawner.OneRemoved(ref instance);
+        }
     }
 
     protected override void OnDestroy()

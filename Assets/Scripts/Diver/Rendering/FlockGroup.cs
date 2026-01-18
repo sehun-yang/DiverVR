@@ -9,9 +9,8 @@ public class FlockGroup : RenderGroup
     public float MaxDistanceSq;
     public FlockSettings Settings;
 
-    public FlockGroup(int groupId, int enemyTypeId, float3 origin, float maxDistance, FlockSettings settings)
+    public FlockGroup(int enemyTypeId, float3 origin, float maxDistance, FlockSettings settings)
     {
-        GroupId = groupId;
         EnemyTypeId = enemyTypeId;
         OriginPoint = origin;
         MaxDistanceSq = maxDistance * maxDistance;

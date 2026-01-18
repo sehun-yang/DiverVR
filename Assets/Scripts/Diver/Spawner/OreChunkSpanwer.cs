@@ -1,23 +1,31 @@
+using System;
 using UnityEngine;
 
 public class OreChunkSpawner : EnemySpawnerBase
 {
-    [SerializeField] private OreSpawner oreSpawner;
+    [SerializeField] private int oreId;
+    [SerializeField] private int orePerChunk;
+
     private readonly RaycastHit[] raycastHits = new RaycastHit[1];
     private int searchIndex = 0;
 
     private const int MaxTryCount = 100;
 
-    private void Start()
+    protected override void Start()
     {
-        if (EnemyManager.Instance == null)
-        {
-            Debug.LogError("EnemyManager not found!");
-            return;
-        }
+        base.Start();
 
-        var group = new OreChunkGroup(oreSpawner, groupId, enemyTypeId);
-        groupId = EnemyManager.Instance.RegisterRenderGroup(group);
+        var oreGroup = EnemyManager.Instance.GetOrAddRenderGroup(() => new InhaleBaseGroup(oreId), oreId);
+    }
+    
+    protected override Func<RenderGroup> GetGroupFactory()
+    {
+        return () => new OreChunkGroup(enemyTypeId);
+    }
+    
+    protected override void OnOneRemoved(ref EnemyInstance instance)
+    {
+        SpawnNAt(oreId, orePerChunk, instance.Position, Quaternion.identity, 1);
     }
     
     protected override (Vector3, Quaternion, float) GetSpawnTRS()
@@ -63,4 +71,17 @@ public class OreChunkSpawner : EnemySpawnerBase
         }
         return result;
     }
+
+#if UNITY_EDITOR
+    public void DamageAll()
+    {
+        for (int i = 0; i < group.Enemies.Length; i++)
+        {
+            var enemy = group.Enemies[i];
+            if (enemy.SpawnerId != spawnerId) continue;
+            enemy.Health = 0;
+            group.Enemies[i] = enemy;
+        }
+    }
+#endif
 }

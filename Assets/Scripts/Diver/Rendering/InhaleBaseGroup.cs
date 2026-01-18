@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class InhaleBaseGroup : RenderGroup
 {
-    public InhaleBaseGroup(int groupId, int enemyTypeId)
+    public InhaleBaseGroup(int enemyTypeId)
     {
-        GroupId = groupId;
         EnemyTypeId = enemyTypeId;
 
         useAnimation = false;

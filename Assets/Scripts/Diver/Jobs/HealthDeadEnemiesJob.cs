@@ -11,6 +11,6 @@ public struct HealthDeadEnemiesJob : IJobParallelFor
     public void Execute(int index)
     {
         var enemy = Enemies[index];
-        IsDead[index] = enemy.Health < 0;
+        IsDead[index] = enemy.Health <= 0;
     }
 }

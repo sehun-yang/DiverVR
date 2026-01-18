@@ -93,8 +93,14 @@ public class DebugMovement : MonoBehaviour
                 }
             }
 
-            myCharacter.transform.position += _speed * Time.deltaTime * totalDirection;
-            Camera.main.transform.Rotate(Vector3.up, totalRotation * _rotateSpeed * Time.deltaTime, Space.Self);
+            if (pressedMap.Count > 0)
+            {
+                Rigidbody rig = myCharacter.GetComponent<Rigidbody>();
+                rig.linearVelocity = Vector3.zero;
+
+                myCharacter.transform.position += _speed * Time.deltaTime * totalDirection;
+                Camera.main.transform.Rotate(Vector3.up, totalRotation * _rotateSpeed * Time.deltaTime, Space.Self);
+            }
         }
     }
 #endif

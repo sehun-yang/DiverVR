@@ -1,4 +1,3 @@
-using System;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
@@ -7,13 +6,14 @@ public static class EnemyGroupUpdater
 {
     public const float WaterSurfaceHeight = 0f;
 
-    public static void RemoveDeadEnemies(RenderGroup group, NativeArray<bool> isDead, Action<EnemyInstance> callback)
+    public static void RemoveDeadEnemies(RenderGroup group, NativeArray<bool> isDead)
     {
         for (int i = isDead.Length - 1; i >= 0; i--)
         {
             if (isDead[i])
             {
-                callback?.Invoke(group.Enemies[i]);
+                var enemy = group.Enemies[i];
+                EnemyManager.Instance.NotifyDead(group.Enemies[i].SpawnerId, ref enemy);
                 group.Enemies.RemoveAtSwapBack(i);
             }
         }
@@ -174,12 +174,12 @@ public static class EnemyGroupUpdater
 
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
-            RemoveDeadEnemies(group, isDead, null);
+            RemoveDeadEnemies(group, isDead);
             isDead.Dispose();
         }
     }
 
-    public static void InhaleDamagePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group, Action<EnemyInstance> callback)
+    public static void InhaleDamagePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group)
     {
         NativeArray<bool> isDead = default;
         if (ModuleManager.Instance.InhaleModule.Enabled)
@@ -192,7 +192,7 @@ public static class EnemyGroupUpdater
 
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
-            RemoveDeadEnemies(group, isDead, callback);
+            RemoveDeadEnemies(group, isDead);
             isDead.Dispose();
         }
     }

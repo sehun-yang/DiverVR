@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class OreChunkGroup : RenderGroup
 {
-    private OreSpawner oreSpawner;
-    [SerializeField] private int orePerChunk = 5;
-
-    public OreChunkGroup(OreSpawner masterOreSpawner, int groupId, int enemyTypeId)
+    public OreChunkGroup(int enemyTypeId)
     {
-        GroupId = groupId;
         EnemyTypeId = enemyTypeId;
-        oreSpawner = masterOreSpawner;
 
         useAnimation = false;
         currentCapacity = InitialCapacity;
@@ -28,11 +23,6 @@ public class OreChunkGroup : RenderGroup
         var handle = new JobHandle();
         handle = EnemyGroupUpdater.ScaleTo(handle, enemiesArray, count, deltaTime, 1, 2);
         handle = EnemyGroupUpdater.InhaleDamage(handle, enemiesArray, count, deltaTime, 30);
-        EnemyGroupUpdater.InhaleDamagePostProcess(handle, enemiesArray, count, this, OnChunkBroken);
-    }
-
-    private void OnChunkBroken(EnemyInstance instance)
-    {
-        oreSpawner.SpawnNAt(orePerChunk, instance.Position);
+        EnemyGroupUpdater.InhaleDamagePostProcess(handle, enemiesArray, count, this);
     }
 }

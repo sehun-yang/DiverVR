@@ -7,9 +7,10 @@ public struct EnemyInstance
     public float Scale;
     public float3 Velocity;
     public float3 Acceleration;
+    public uint SpawnerId;
     public int EnemyTypeId;
     public float AnimationTime;
-    public int AnimationIndex;
+    public byte AnimationIndex;
     public float AnimationLength;
     public float BoundingRadius;
     public byte IsVisible;

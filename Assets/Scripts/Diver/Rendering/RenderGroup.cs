@@ -5,7 +5,6 @@ using UnityEngine;
 
 public abstract class RenderGroup : IDisposable
 {
-    public int GroupId;
     public int EnemyTypeId;
 
     public NativeList<EnemyInstance> Enemies;
@@ -52,11 +51,6 @@ public abstract class RenderGroup : IDisposable
     {
         Enemies.Add(enemy);
         EnsureCapacity(Enemies.Length);
-    }
-
-    public void RemoveAt(int index)
-    {
-        Enemies.RemoveAtSwapBack(index);
     }
 
     public void Dispose()

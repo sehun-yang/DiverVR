@@ -1,16 +1,9 @@
-using UnityEngine;
+using System;
 
 public class OreSpawner : EnemySpawnerBase
 {
-    private void Start()
+    protected override Func<RenderGroup> GetGroupFactory()
     {
-        if (EnemyManager.Instance == null)
-        {
-            Debug.LogError("EnemyManager not found!");
-            return;
-        }
-
-        var group = new InhaleBaseGroup(groupId, enemyTypeId);
-        groupId = EnemyManager.Instance.RegisterRenderGroup(group);
+        return () => new InhaleBaseGroup(enemyTypeId);
     }
 }
