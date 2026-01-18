@@ -72,7 +72,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
         var cullingJob = new FrustumCullingJob
         {
-            Enemies = group.Enemies.AsArray(),
+            Enemies = group.Enemies,
             FrustumPlanes = frustumPlanes
         };
         cullingJob.Schedule(count, 64).Complete();
@@ -86,7 +86,8 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         {
             var collectJob = new CollectRenderDataJob
             {
-                Enemies = group.Enemies.AsArray(),
+                Enemies = group.Enemies,
+                MaxCount = group.Count,
                 Matrices = group.Matrices,
                 AnimationData = group.AnimationData,
                 VisibleCount = visibleCountRef
@@ -97,9 +98,10 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         {
             var collectJob = new CollectRenderDataJobNoAnimation
             {
-                Enemies = group.Enemies.AsArray(),
+                Enemies = group.Enemies,
+                MaxCount = group.Count,
                 Matrices = group.Matrices,
-                VisibleCount = visibleCountRef
+                VisibleCount = visibleCountRef,
             };
             collectJob.Schedule().Complete();
         }
@@ -255,13 +257,6 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         }
     }
     
-    public int GetCount(RenderGroup group)
-    {
-        if (group == null) return int.MaxValue;
-
-        return group.Enemies.Length;
-    }
-
     public void SpawnEnemy(RenderGroup group, uint spawnerId, Vector3 position, Quaternion rotation, float scale)
     {
         if (group == null) return;

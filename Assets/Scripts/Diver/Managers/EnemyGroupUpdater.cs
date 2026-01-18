@@ -8,15 +8,28 @@ public static class EnemyGroupUpdater
 
     public static void RemoveDeadEnemies(RenderGroup group, NativeArray<bool> isDead)
     {
-        for (int i = isDead.Length - 1; i >= 0; i--)
+        int writeIndex = 0;
+        int deadCount = 0;
+        
+        for (int readIndex = 0; readIndex < group.Count; readIndex++)
         {
-            if (isDead[i])
+            if (isDead[readIndex])
             {
-                var enemy = group.Enemies[i];
-                EnemyManager.Instance.NotifyDead(group.Enemies[i].SpawnerId, ref enemy);
-                group.Enemies.RemoveAtSwapBack(i);
+                var enemy = group.Enemies[readIndex];
+                EnemyManager.Instance.NotifyDead(group.Enemies[readIndex].SpawnerId, ref enemy);
+                deadCount++;
+            }
+            else
+            {
+                if (writeIndex != readIndex)
+                {
+                    group.Enemies[writeIndex] = group.Enemies[readIndex];
+                }
+                writeIndex++;
             }
         }
+        
+        group.Count = writeIndex;
     }
 
     public static JobHandle MarkDeadEnemies(JobHandle handle, NativeArray<EnemyArcheType> enemies, int count, NativeArray<bool> isDead)
@@ -48,6 +61,7 @@ public static class EnemyGroupUpdater
         var job = new FlockJob
         {
             Enemies = enemies,
+            MaxCount = group.Count,
             Settings = group.Settings,
             OriginPoint = group.OriginPoint,
             MaxDistanceSq = group.MaxDistanceSq,

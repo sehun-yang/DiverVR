@@ -79,7 +79,7 @@ public class OreChunkSpawner : EnemySpawnerBase
 #if UNITY_EDITOR
     public void DamageAll()
     {
-        for (int i = 0; i < group.Enemies.Length; i++)
+        for (int i = 0; i < group.Count; i++)
         {
             var enemy = group.Enemies[i];
             if (enemy.SpawnerId != spawnerId) continue;

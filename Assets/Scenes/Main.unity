@@ -441,20 +441,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &155352235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugRotateE
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 2bea6d06-4728-4717-ac39-fa2465f1da4b
 --- !u!1 &226728779
 GameObject:
   m_ObjectHideFlags: 0
@@ -5324,7 +5310,7 @@ MonoBehaviour:
   asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   referenceMap:
     _items:
-    - Key: {fileID: 267699245}
+    - Key: {fileID: 996977756}
       Value: 0
 --- !u!4 &248084226
 Transform:
@@ -5359,40 +5345,26 @@ MonoBehaviour:
   _rightHandDevice: {fileID: 491314038}
   _referenceMap:
     _items:
-    - Key: {fileID: 1998786405}
+    - Key: {fileID: 1164395502}
       Value: {x: 0, y: 0, z: -2}
-    - Key: {fileID: 1409737394}
+    - Key: {fileID: 887849182}
       Value: {x: 0, y: 0, z: 2}
-    - Key: {fileID: 551989373}
+    - Key: {fileID: 1570427906}
       Value: {x: -2, y: 0, z: 0}
-    - Key: {fileID: 1456336764}
+    - Key: {fileID: 500737394}
       Value: {x: 2, y: 0, z: 0}
-    - Key: {fileID: 2128752321}
+    - Key: {fileID: 972619909}
       Value: {x: 0, y: 2, z: 0}
   _rotationBindings:
     _items:
-    - Key: {fileID: 1786671700}
+    - Key: {fileID: 1168476072}
       Value: -5
-    - Key: {fileID: 155352235}
+    - Key: {fileID: 2101848251}
       Value: 5
   _leftHandMovement:
     _items: []
   _rightHandMovement:
     _items: []
---- !u!114 &267699245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/Inhale
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 851b8445-a172-4d30-8895-72767989178a
 --- !u!1 &288326321
 GameObject:
   m_ObjectHideFlags: 0
@@ -10965,6 +10937,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainServer
   networkRunnerPrefab: {fileID: 6376694648413924255, guid: c9f7328a5964b354e84aab34f47eb80b, type: 3}
   recorder: {fileID: 1396564466}
+--- !u!114 &500737394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugRight
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 0d0e575e-a502-48ad-a60e-a90b8c9c631d
 --- !u!1 &551638756
 GameObject:
   m_ObjectHideFlags: 0
@@ -10997,20 +10983,6 @@ Transform:
   - {fileID: 833215066}
   m_Father: {fileID: 343998221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &551989373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugLeft
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 256a376a-be2c-4604-a6a2-bb01470f3a20
 --- !u!1 &598488987
 GameObject:
   m_ObjectHideFlags: 0
@@ -11376,6 +11348,20 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 5
   rotationSpeed: 5
+--- !u!114 &887849182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugForward
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 711831d5-42e7-431c-b8be-a2eb5898c403
 --- !u!1 &923770933
 GameObject:
   m_ObjectHideFlags: 0
@@ -11474,6 +11460,20 @@ MonoBehaviour:
   spawnBound: 25
   oreId: 1
   orePerChunk: 10
+--- !u!114 &972619909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugJump
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: c8224591-59ef-43af-b070-6d20aaa36817
 --- !u!1 &976703892
 GameObject:
   m_ObjectHideFlags: 0
@@ -11507,6 +11507,20 @@ Transform:
   - {fileID: 122125439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &996977756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/Inhale
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 851b8445-a172-4d30-8895-72767989178a
 --- !u!1001 &1092217236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11659,6 +11673,20 @@ Transform:
   - {fileID: 1165689836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1164395502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugBackward
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 552d778d-3997-45e3-81c6-a4ecda655d11
 --- !u!1 &1165689835
 GameObject:
   m_ObjectHideFlags: 0
@@ -11712,6 +11740,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.00001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1168476072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugRotateQ
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: bf6ddb96-c718-443a-bf6f-3066d6d50752
 --- !u!1 &1241444656
 GameObject:
   m_ObjectHideFlags: 0
@@ -12102,20 +12144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.UtilityScripts.MicAmplifier
   amplificationFactor: 30
---- !u!114 &1409737394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugForward
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 711831d5-42e7-431c-b8be-a2eb5898c403
 --- !u!1 &1429819958
 GameObject:
   m_ObjectHideFlags: 0
@@ -12225,7 +12253,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.00001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1456336764
+--- !u!114 &1570427906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12235,10 +12263,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugRight
+  m_Name: Default/DebugLeft
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 0d0e575e-a502-48ad-a60e-a90b8c9c631d
+  m_ActionId: 256a376a-be2c-4604-a6a2-bb01470f3a20
 --- !u!1 &1627611401
 GameObject:
   m_ObjectHideFlags: 0
@@ -12553,20 +12581,6 @@ MonoBehaviour:
   spawnBound: 25
   oreId: 1
   orePerChunk: 10
---- !u!114 &1786671700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugRotateQ
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: bf6ddb96-c718-443a-bf6f-3066d6d50752
 --- !u!1 &1795458263
 GameObject:
   m_ObjectHideFlags: 0
@@ -12922,20 +12936,6 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 5
   rotationSpeed: 5
---- !u!114 &1998786405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugBackward
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: 552d778d-3997-45e3-81c6-a4ecda655d11
 --- !u!1 &2071004027
 GameObject:
   m_ObjectHideFlags: 0
@@ -13225,6 +13225,20 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 943747511159304714, guid: 7aac6a3ce5857d54c86e4b635b0a08be, type: 3}
   m_PrefabInstance: {fileID: 2100644799}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2101848251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Default/DebugRotateE
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 2bea6d06-4728-4717-ac39-fa2465f1da4b
 --- !u!1 &2116020544
 GameObject:
   m_ObjectHideFlags: 0
@@ -13261,20 +13275,6 @@ Transform:
   - {fileID: 1627611402}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2128752321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Default/DebugJump
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_ActionId: c8224591-59ef-43af-b070-6d20aaa36817
 --- !u!1 &2130975330
 GameObject:
   m_ObjectHideFlags: 0

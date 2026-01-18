@@ -9,6 +9,7 @@ public struct FlockJob : IJobParallelFor
     [NativeDisableParallelForRestriction] public NativeArray<EnemyArcheType> Enemies;
     [ReadOnly] public FlockSettings Settings;
     [ReadOnly] public float3 OriginPoint;
+    [ReadOnly] public int MaxCount;
     [ReadOnly] public float MaxDistanceSq;
     [ReadOnly] public float DeltaTime;
     [ReadOnly] public float MaxY;
@@ -17,6 +18,8 @@ public struct FlockJob : IJobParallelFor
 
     public void Execute(int index)
     {
+        if (index > MaxCount) return;
+
         var enemy = Enemies[index];
         
         float3 myPos = enemy.Position;
@@ -27,7 +30,7 @@ public struct FlockJob : IJobParallelFor
         float3 cohesion = float3.zero;
         int neighborCount = 0;
 
-        for (int i = 0; i < Enemies.Length; i++)
+        for (int i = 0; i < MaxCount; i++)
         {
             if (i == index) continue;
 

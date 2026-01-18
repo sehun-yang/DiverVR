@@ -7,7 +7,7 @@ public abstract class RenderGroup : IDisposable
 {
     public int EnemyTypeId;
 
-    public NativeList<EnemyArcheType> Enemies;
+    public NativeArray<EnemyArcheType> Enemies;
     public NativeArray<Matrix4x4> Matrices;
     public NativeArray<float2> AnimationData;
 
@@ -16,13 +16,13 @@ public abstract class RenderGroup : IDisposable
     protected const int InitialCapacity = 64;
     protected const int CapacityGrowth = 64;
 
-    public int Count => Enemies.Length;
+    public int Count = 0;
 
     public RenderGroup(int enemyTypeId)
     {
         EnemyTypeId = enemyTypeId;
         currentCapacity = InitialCapacity;
-        Enemies = new NativeList<EnemyArcheType>(currentCapacity, Allocator.Persistent);
+        Enemies = new NativeArray<EnemyArcheType>(currentCapacity, Allocator.Persistent);
         Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
     }
 
@@ -32,33 +32,34 @@ public abstract class RenderGroup : IDisposable
 
         int newCapacity = ((required / CapacityGrowth) + 1) * CapacityGrowth;
 
-        var newMatrices = new NativeArray<Matrix4x4>(newCapacity, Allocator.Persistent);
-
-        if (Matrices.IsCreated && Matrices.Length > 0)
-        {
-            NativeArray<Matrix4x4>.Copy(Matrices, newMatrices, math.min(Matrices.Length, newCapacity));
-            Matrices.Dispose();
-        }
-
-        Matrices = newMatrices;
+        Enemies = ExpandNativeArray(Enemies, newCapacity);
+        Matrices = ExpandNativeArray(Matrices, newCapacity);
         currentCapacity = newCapacity;
 
         if(useAnimation)
         {
-            var newAnimData = new NativeArray<float2>(newCapacity, Allocator.Persistent);
-            if (AnimationData.IsCreated && AnimationData.Length > 0)
-            {
-                NativeArray<float2>.Copy(AnimationData, newAnimData, math.min(AnimationData.Length, newCapacity));
-                AnimationData.Dispose();
-            }
-            AnimationData = newAnimData;
+            AnimationData = ExpandNativeArray(AnimationData, newCapacity);
         }
+    }
+
+    private NativeArray<T> ExpandNativeArray<T>(NativeArray<T> old, int newCapacity) where T : struct
+    {
+        var newMatrices = new NativeArray<T>(newCapacity, Allocator.Persistent);
+
+        if (old.IsCreated && old.Length > 0)
+        {
+            NativeArray<T>.Copy(old, newMatrices, math.min(old.Length, newCapacity));
+            old.Dispose();
+        }
+
+        return newMatrices;
     }
 
     public void AddEnemy(EnemyArcheType enemy)
     {
-        Enemies.Add(enemy);
-        EnsureCapacity(Enemies.Length);
+        EnsureCapacity(Count + 1);
+        Enemies[Count] = enemy;
+        Count++;
     }
 
     public void Dispose()

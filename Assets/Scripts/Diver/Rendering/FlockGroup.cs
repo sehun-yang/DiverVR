@@ -21,17 +21,13 @@ public class FlockGroup : RenderGroup
 
     public override void Update(float deltaTime)
     {
-        var enemies = Enemies;
-        int count = enemies.Length;
-        var enemiesArray = enemies.AsArray();
-
         var handle = new JobHandle();
-        handle = EnemyGroupUpdater.UpdateFlockGroup(handle, enemiesArray, count, this, deltaTime);
-        handle = EnemyGroupUpdater.AvoidPlayer(handle, enemiesArray, count, deltaTime);
-        handle = EnemyGroupUpdater.Inhale(handle, enemiesArray, count, deltaTime, Vector3.zero);
-        handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, enemiesArray, count, deltaTime, Vector3.zero);
-        handle = EnemyGroupUpdater.UpdateAnimation(handle, enemiesArray, count, deltaTime);
+        handle = EnemyGroupUpdater.UpdateFlockGroup(handle, Enemies, Count, this, deltaTime);
+        handle = EnemyGroupUpdater.AvoidPlayer(handle, Enemies, Count, deltaTime);
+        handle = EnemyGroupUpdater.Inhale(handle, Enemies, Count, deltaTime, Vector3.zero);
+        handle = EnemyGroupUpdater.PhysicsCollisionJob(handle, Enemies, Count, deltaTime, Vector3.zero);
+        handle = EnemyGroupUpdater.UpdateAnimation(handle, Enemies, Count, deltaTime);
 
-        EnemyGroupUpdater.InhalePostProcess(handle, enemiesArray, count, this);
+        EnemyGroupUpdater.InhalePostProcess(handle, Enemies, Count, this);
     }
 }

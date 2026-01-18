@@ -8,6 +8,7 @@ using UnityEngine;
 public struct CollectRenderDataJob : IJob
 {
     [ReadOnly] public NativeArray<EnemyArcheType> Enemies;
+    [ReadOnly] public int MaxCount;
     [WriteOnly] public NativeArray<Matrix4x4> Matrices;
     [WriteOnly] public NativeArray<float2> AnimationData;
     public NativeReference<int> VisibleCount;
@@ -16,7 +17,7 @@ public struct CollectRenderDataJob : IJob
     {
         int count = 0;
         
-        for (int i = 0; i < Enemies.Length; i++)
+        for (int i = 0; i < MaxCount; i++)
         {
             var enemy = Enemies[i];
             
