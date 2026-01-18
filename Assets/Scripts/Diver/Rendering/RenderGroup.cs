@@ -7,7 +7,7 @@ public abstract class RenderGroup : IDisposable
 {
     public int EnemyTypeId;
 
-    public NativeList<EnemyArchyType> Enemies;
+    public NativeList<EnemyArcheType> Enemies;
     public NativeArray<Matrix4x4> Matrices;
     public NativeArray<float2> AnimationData;
 
@@ -17,6 +17,14 @@ public abstract class RenderGroup : IDisposable
     protected const int CapacityGrowth = 64;
 
     public int Count => Enemies.Length;
+
+    public RenderGroup(int enemyTypeId)
+    {
+        EnemyTypeId = enemyTypeId;
+        currentCapacity = InitialCapacity;
+        Enemies = new NativeList<EnemyArcheType>(currentCapacity, Allocator.Persistent);
+        Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
+    }
 
     public void EnsureCapacity(int required)
     {
@@ -47,7 +55,7 @@ public abstract class RenderGroup : IDisposable
         }
     }
 
-    public void AddEnemy(EnemyArchyType enemy)
+    public void AddEnemy(EnemyArcheType enemy)
     {
         Enemies.Add(enemy);
         EnsureCapacity(Enemies.Length);

@@ -6,7 +6,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct InhaleMarkDeadEnemiesJob : IJobParallelFor
 {
-    [ReadOnly] public NativeArray<EnemyArchyType> Enemies;
+    [ReadOnly] public NativeArray<EnemyArcheType> Enemies;
     [ReadOnly] public float3 InhaleOrigin;
     [ReadOnly] public float CaptureDistanceSq;
     [WriteOnly] public NativeArray<bool> IsDead;

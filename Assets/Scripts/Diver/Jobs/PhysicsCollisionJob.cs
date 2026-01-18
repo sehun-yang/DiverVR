@@ -7,7 +7,7 @@ using UnityEngine;
 [BurstCompile]
 public struct PhysicsCollisionMovementJob : IJobParallelFor
 {
-    public NativeArray<EnemyArchyType> Enemies;
+    public NativeArray<EnemyArcheType> Enemies;
     [ReadOnly] public NativeArray<RaycastHit> Hits;
     [ReadOnly] public float DeltaTime;
     [ReadOnly] public float3 Gravity;

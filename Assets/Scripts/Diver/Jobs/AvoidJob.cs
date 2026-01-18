@@ -9,7 +9,7 @@ public struct AvoidJob : IJobParallelFor
     private const float RunSpeed = 4;
     private const float RunStartDist = 5;
 
-    public NativeArray<EnemyArchyType> Enemies;
+    public NativeArray<EnemyArcheType> Enemies;
     [ReadOnly] public float3 MyPosition;
     [ReadOnly] public float DeltaTime;
 

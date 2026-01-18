@@ -7,7 +7,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct FrustumCullingJob : IJobParallelFor
 {
-    public NativeArray<EnemyArchyType> Enemies;
+    public NativeArray<EnemyArcheType> Enemies;
     [ReadOnly] public NativeArray<float4> FrustumPlanes;
 
     public void Execute(int index)

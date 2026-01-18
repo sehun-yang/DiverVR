@@ -1,17 +1,11 @@
-using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
 public class InhaleBaseGroup : RenderGroup
 {
-    public InhaleBaseGroup(int enemyTypeId)
+    public InhaleBaseGroup(int enemyTypeId) : base(enemyTypeId)
     {
-        EnemyTypeId = enemyTypeId;
-
         useAnimation = false;
-        currentCapacity = InitialCapacity;
-        Enemies = new NativeList<EnemyArchyType>(currentCapacity, Allocator.Persistent);
-        Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
     }
 
     public override void Update(float deltaTime)

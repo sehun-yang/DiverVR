@@ -24,7 +24,7 @@ public class OreChunkSpawner : EnemySpawnerBase
         return () => new OreChunkGroup(enemyTypeId);
     }
     
-    protected override void OnOneRemoved(ref EnemyArchyType instance)
+    protected override void OnOneRemoved(ref EnemyArcheType instance)
     {
         base.OnOneRemoved(ref instance);
 

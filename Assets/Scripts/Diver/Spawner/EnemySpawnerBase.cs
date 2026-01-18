@@ -76,7 +76,7 @@ public abstract class EnemySpawnerBase : MonoBehaviour
         }
     }
 
-    public void OneRemoved(ref EnemyArchyType instance)
+    public void OneRemoved(ref EnemyArcheType instance)
     {
         CurrentSpawnCount -= 1;
         OnOneRemoved(ref instance);
@@ -88,7 +88,7 @@ public abstract class EnemySpawnerBase : MonoBehaviour
         return (transform.position + randomOffset, Quaternion.identity, 1);
     }
 
-    protected virtual void OnOneRemoved(ref EnemyArchyType instance)
+    protected virtual void OnOneRemoved(ref EnemyArcheType instance)
     {
         var deathEffect = EnemyManager.Instance.enemyDataAsset.EnemyData[enemyTypeId].DeathEffect;
         if (deathEffect != null)

@@ -9,17 +9,13 @@ public class FlockGroup : RenderGroup
     public float MaxDistanceSq;
     public FlockSettings Settings;
 
-    public FlockGroup(int enemyTypeId, float3 origin, float maxDistance, FlockSettings settings)
+    public FlockGroup(int enemyTypeId, float3 origin, float maxDistance, FlockSettings settings)  : base(enemyTypeId)
     {
-        EnemyTypeId = enemyTypeId;
         OriginPoint = origin;
         MaxDistanceSq = maxDistance * maxDistance;
         Settings = settings;
 
         useAnimation = true;
-        currentCapacity = InitialCapacity;
-        Enemies = new NativeList<EnemyArchyType>(currentCapacity, Allocator.Persistent);
-        Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
         AnimationData = new NativeArray<float2>(currentCapacity, Allocator.Persistent);
     }
 
