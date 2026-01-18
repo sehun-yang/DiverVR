@@ -7,7 +7,7 @@ using UnityEngine;
 [BurstCompile]
 public struct PhysicsRaycastJob : IJobParallelFor
 {
-    public NativeArray<EnemyInstance> Enemies;
+    public NativeArray<EnemyArchyType> Enemies;
     [WriteOnly] public NativeArray<SpherecastCommand> Commands;
     [ReadOnly] public float DeltaTime;
 

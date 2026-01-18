@@ -76,7 +76,7 @@ public abstract class EnemySpawnerBase : MonoBehaviour
         }
     }
 
-    public void OneRemoved(ref EnemyInstance instance)
+    public void OneRemoved(ref EnemyArchyType instance)
     {
         CurrentSpawnCount -= 1;
         OnOneRemoved(ref instance);
@@ -88,7 +88,15 @@ public abstract class EnemySpawnerBase : MonoBehaviour
         return (transform.position + randomOffset, Quaternion.identity, 1);
     }
 
-    protected virtual void OnOneRemoved(ref EnemyInstance instance) {}
+    protected virtual void OnOneRemoved(ref EnemyArchyType instance)
+    {
+        var deathEffect = EnemyManager.Instance.enemyDataAsset.EnemyData[enemyTypeId].DeathEffect;
+        if (deathEffect != null)
+        {
+            var effectInstance = Instantiate(deathEffect, instance.Position, Quaternion.identity);
+            Destroy(effectInstance, 5);
+        }
+    }
     
     protected abstract Func<RenderGroup> GetGroupFactory();
 

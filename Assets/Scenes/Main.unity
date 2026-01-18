@@ -288,10 +288,8 @@ MonoBehaviour:
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 8
-  _breakSpeed: 2.3
   _shootSpeed: 0.2
   _shootPowerMultiplier: 0.25
-  _normalTerrainMaxClimbAngle: 180
   _maxArmLength: 0.75
   _shotRetainTime: 100
   _underWaterBuoyancy: {x: 0, y: 8, z: 0}
@@ -359,7 +357,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 20
   oreId: 1
   orePerChunk: 10
@@ -5442,7 +5439,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -5674,7 +5670,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -11371,7 +11366,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -11428,7 +11422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 30
   oreId: 1
   orePerChunk: 10
@@ -11478,7 +11471,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 25
   oreId: 1
   orePerChunk: 10
@@ -11870,7 +11862,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -11927,7 +11918,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -12172,7 +12162,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -12367,7 +12356,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -12458,7 +12446,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -12563,7 +12550,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 25
   oreId: 1
   orePerChunk: 10
@@ -12698,7 +12684,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 8
   oreId: 1
   orePerChunk: 10
@@ -12927,7 +12912,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -12998,7 +12982,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -13101,7 +13084,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnPointAuthoring
   enemyTypeId: 0
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 5
   neighborDistance: 3
   separationDistance: 1
@@ -13339,7 +13321,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OreChunkSpawner
   enemyTypeId: 2
   maxSpawnAmount: 50
-  spawnerId: 0
   spawnBound: 30
   oreId: 1
   orePerChunk: 10
@@ -13547,63 +13528,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee3d83821fbf3e54c98b792ff25a2b71, type: 3}
---- !u!1001 &8250692189986085973
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4161507443057766559, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_Name
-      value: fxPop
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -115.105
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 72.292
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 20.02034
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184623180916121760, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13626,4 +13550,3 @@ SceneRoots:
   - {fileID: 7449220017483281593}
   - {fileID: 1741759608008782254}
   - {fileID: 7949298418774513596}
-  - {fileID: 8250692189986085973}

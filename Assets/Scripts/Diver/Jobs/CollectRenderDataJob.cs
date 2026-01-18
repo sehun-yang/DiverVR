@@ -7,7 +7,7 @@ using UnityEngine;
 [BurstCompile]
 public struct CollectRenderDataJob : IJob
 {
-    [ReadOnly] public NativeArray<EnemyInstance> Enemies;
+    [ReadOnly] public NativeArray<EnemyArchyType> Enemies;
     [WriteOnly] public NativeArray<Matrix4x4> Matrices;
     [WriteOnly] public NativeArray<float2> AnimationData;
     public NativeReference<int> VisibleCount;

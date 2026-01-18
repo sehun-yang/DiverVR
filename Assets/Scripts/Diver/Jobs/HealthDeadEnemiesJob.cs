@@ -5,7 +5,7 @@ using Unity.Jobs;
 [BurstCompile]
 public struct HealthDeadEnemiesJob : IJobParallelFor
 {
-    [ReadOnly] public NativeArray<EnemyInstance> Enemies;
+    [ReadOnly] public NativeArray<EnemyArchyType> Enemies;
     [WriteOnly] public NativeArray<bool> IsDead;
 
     public void Execute(int index)

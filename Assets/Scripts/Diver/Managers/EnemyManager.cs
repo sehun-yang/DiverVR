@@ -267,11 +267,12 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         if (group == null) return;
 
         var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
+        var randomRotation = Quaternion.Euler(enemyData.RandomRotationMask.x * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.y * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.z * (UnityEngine.Random.value - 0.5f) * 2);
 
-        var enemy = new EnemyInstance
+        var enemy = new EnemyArchyType
         {
             Position = position + enemyData.Pivot,
-            Rotation = rotation * enemyData.BaseRotation,
+            Rotation = rotation * randomRotation * enemyData.BaseRotation,
             Scale = scale,
             Velocity = float3.zero,
             EnemyTypeId = group.EnemyTypeId,
@@ -293,7 +294,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         renderingGroups.Remove(group.EnemyTypeId);
     }
 
-    public void NotifyDead(uint spawnerId, ref EnemyInstance instance)
+    public void NotifyDead(uint spawnerId, ref EnemyArchyType instance)
     {
         if (spawners.TryGetValue(spawnerId, out var spawner))
         {

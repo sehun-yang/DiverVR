@@ -6,7 +6,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct ScaleJob : IJobParallelFor
 {
-    public NativeArray<EnemyInstance> Enemies;
+    public NativeArray<EnemyArchyType> Enemies;
     [ReadOnly] public float TargetScale;
     [ReadOnly] public float ScaleSpeed;
     [ReadOnly] public float DeltaTime;

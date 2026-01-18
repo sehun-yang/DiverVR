@@ -10,7 +10,7 @@ public class OreChunkGroup : RenderGroup
 
         useAnimation = false;
         currentCapacity = InitialCapacity;
-        Enemies = new NativeList<EnemyInstance>(currentCapacity, Allocator.Persistent);
+        Enemies = new NativeList<EnemyArchyType>(currentCapacity, Allocator.Persistent);
         Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
     }
 

@@ -6,7 +6,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct FlockJob : IJobParallelFor
 {
-    [NativeDisableParallelForRestriction] public NativeArray<EnemyInstance> Enemies;
+    [NativeDisableParallelForRestriction] public NativeArray<EnemyArchyType> Enemies;
     [ReadOnly] public FlockSettings Settings;
     [ReadOnly] public float3 OriginPoint;
     [ReadOnly] public float MaxDistanceSq;

@@ -19,7 +19,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-    public static JobHandle MarkDeadEnemies(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, NativeArray<bool> isDead)
+    public static JobHandle MarkDeadEnemies(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, NativeArray<bool> isDead)
     {
         var job = new InhaleMarkDeadEnemiesJob
         {
@@ -32,7 +32,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 64, handle);
     }
 
-    public static JobHandle MarkDeadEnemiesWithHealth(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, NativeArray<bool> isDead)
+    public static JobHandle MarkDeadEnemiesWithHealth(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, NativeArray<bool> isDead)
     {
         var job = new HealthDeadEnemiesJob
         {
@@ -43,7 +43,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 64, handle);
     }
 
-    public static JobHandle UpdateFlockGroup(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, FlockGroup group, float deltaTime)
+    public static JobHandle UpdateFlockGroup(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, FlockGroup group, float deltaTime)
     {
         var job = new FlockJob
         {
@@ -58,7 +58,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle AvoidPlayer(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    public static JobHandle AvoidPlayer(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime)
     {
         var job = new AvoidJob
         {
@@ -70,7 +70,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 32, handle);
     }
 
-    public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
+    public static JobHandle PhysicsCollisionJob(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime, Vector3 gravity)
     {
         var raycastCommands = new NativeArray<SpherecastCommand>(count, Allocator.TempJob);
         var raycastHits = new NativeArray<RaycastHit>(count, Allocator.TempJob);
@@ -101,7 +101,7 @@ public static class EnemyGroupUpdater
         return default;
     }
 
-    public static JobHandle ScaleTo(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, float targetScale, float scalingSpeed)
+    public static JobHandle ScaleTo(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime, float targetScale, float scalingSpeed)
     {
         var job = new ScaleJob
         {
@@ -114,7 +114,7 @@ public static class EnemyGroupUpdater
         return job.ScheduleByRef(count, 128, handle);
     }
 
-    public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, Vector3 gravity)
+    public static JobHandle Inhale(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime, Vector3 gravity)
     {
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
@@ -138,7 +138,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-    public static JobHandle InhaleDamage(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime, float damage)
+    public static JobHandle InhaleDamage(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime, float damage)
     {
         if (ModuleManager.Instance.InhaleModule.Enabled)
         {
@@ -161,7 +161,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-    public static void InhalePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group)
+    public static void InhalePostProcess(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, RenderGroup group)
     {
         NativeArray<bool> isDead = default;
         if (ModuleManager.Instance.InhaleModule.Enabled)
@@ -179,7 +179,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-    public static void InhaleDamagePostProcess(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, RenderGroup group)
+    public static void InhaleDamagePostProcess(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, RenderGroup group)
     {
         NativeArray<bool> isDead = default;
         if (ModuleManager.Instance.InhaleModule.Enabled)
@@ -197,7 +197,7 @@ public static class EnemyGroupUpdater
         }
     }
 
-    public static JobHandle UpdateAnimation(JobHandle handle, NativeArray<EnemyInstance> enemies, int count, float deltaTime)
+    public static JobHandle UpdateAnimation(JobHandle handle, NativeArray<EnemyArchyType> enemies, int count, float deltaTime)
     {
         var job = new AnimationUpdateJob
         {

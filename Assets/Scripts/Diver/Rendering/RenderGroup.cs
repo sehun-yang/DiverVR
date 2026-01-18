@@ -7,7 +7,7 @@ public abstract class RenderGroup : IDisposable
 {
     public int EnemyTypeId;
 
-    public NativeList<EnemyInstance> Enemies;
+    public NativeList<EnemyArchyType> Enemies;
     public NativeArray<Matrix4x4> Matrices;
     public NativeArray<float2> AnimationData;
 
@@ -47,7 +47,7 @@ public abstract class RenderGroup : IDisposable
         }
     }
 
-    public void AddEnemy(EnemyInstance enemy)
+    public void AddEnemy(EnemyArchyType enemy)
     {
         Enemies.Add(enemy);
         EnsureCapacity(Enemies.Length);

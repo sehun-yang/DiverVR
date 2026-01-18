@@ -5,7 +5,7 @@ using Unity.Jobs;
 [BurstCompile]
 public struct AnimationUpdateJob : IJobParallelFor
 {
-    public NativeArray<EnemyInstance> Enemies;
+    public NativeArray<EnemyArchyType> Enemies;
     [ReadOnly] public float DeltaTime;
 
     public void Execute(int index)

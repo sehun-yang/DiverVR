@@ -7,7 +7,7 @@ using Unity.Mathematics;
 [BurstCompile]
 public struct InhaleJob : IJobParallelFor
 {
-    public NativeArray<EnemyInstance> Enemies;
+    public NativeArray<EnemyArchyType> Enemies;
     [ReadOnly] public float MaxInhaleRange;
     [ReadOnly] public float InhaleStrength;
     [ReadOnly] public float3 InhaleOrigin;

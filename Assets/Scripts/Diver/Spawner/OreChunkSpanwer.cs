@@ -24,9 +24,12 @@ public class OreChunkSpawner : EnemySpawnerBase
         return () => new OreChunkGroup(enemyTypeId);
     }
     
-    protected override void OnOneRemoved(ref EnemyInstance instance)
+    protected override void OnOneRemoved(ref EnemyArchyType instance)
     {
-        SpawnNAt(oreId, orePerChunk, instance.Position, Quaternion.identity, 1);
+        base.OnOneRemoved(ref instance);
+
+        var enemyData = EnemyManager.Instance.enemyDataAsset.EnemyData[enemyTypeId];
+        SpawnNAt(oreId, orePerChunk, instance.Position, Quaternion.Euler(enemyData.RandomRotationMask.x * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.y * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.z * (UnityEngine.Random.value - 0.5f) * 2), 1);
     }
     
     protected override (Vector3, Quaternion, float) GetSpawnTRS()

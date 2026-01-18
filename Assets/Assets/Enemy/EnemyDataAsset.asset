@@ -17,17 +17,23 @@ MonoBehaviour:
     AnimationAsset: {fileID: 11400000, guid: d2eeb69a45738de4aadb15e9bd68ed58, type: 2}
     Pivot: {x: 0, y: 0, z: 0}
     BaseRotation: {x: 0, y: 0, z: 0, w: 1}
+    RandomRotationMask: {x: 0, y: 0, z: 0}
     Mesh: {fileID: 2492698829512849286, guid: 6dd8bdaef87be0940a352df682df9ce9, type: 3}
     Material: {fileID: 2100000, guid: 556ee873dba12814ebcbc4bd9b2dbb25, type: 2}
+    DeathEffect: {fileID: 0}
   - AnimationGPUSkinning: 0
     AnimationAsset: {fileID: 0}
     Pivot: {x: 0, y: 0, z: 0}
     BaseRotation: {x: 0, y: 0, z: 0, w: 1}
+    RandomRotationMask: {x: 180, y: 180, z: 180}
     Mesh: {fileID: -8035473100795213634, guid: a8540e6c35fd7c24e96631e2a8c3002d, type: 3}
     Material: {fileID: 2100000, guid: abf1e07407336e84593cd6ff2bb4aa2b, type: 2}
+    DeathEffect: {fileID: 0}
   - AnimationGPUSkinning: 0
     AnimationAsset: {fileID: 0}
     Pivot: {x: 0, y: 0.35, z: 0}
     BaseRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
+    RandomRotationMask: {x: 10, y: 5, z: 180}
     Mesh: {fileID: -4274806258229313918, guid: d011ad29c42934648837faf4d0725758, type: 3}
     Material: {fileID: 2100000, guid: abf1e07407336e84593cd6ff2bb4aa2b, type: 2}
+    DeathEffect: {fileID: 4161507443057766559, guid: 0f6c885b91ef0b94ab14639c90c563b7, type: 3}
