@@ -1,4 +1,5 @@
 public enum ArcheType
 {
-    EnemyArcheType
+    EnemyArcheType,
+    ScaleArcheType
 }

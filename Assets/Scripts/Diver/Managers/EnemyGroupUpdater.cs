@@ -114,13 +114,12 @@ public static class EnemyGroupUpdater
         return default;
     }
 
-    public static JobHandle ScaleTo(JobHandle handle, NativeArray<EnemyArcheType> enemies, int count, float deltaTime, float targetScale, float scalingSpeed)
+    public static JobHandle ScaleTo(JobHandle handle, NativeArray<EnemyArcheType> enemies, NativeArray<ScaleArcheType> scales, int count, float deltaTime)
     {
         var job = new ScaleJob
         {
             Enemies = enemies,
-            TargetScale = targetScale,
-            ScaleSpeed = scalingSpeed,
+            Scales = scales,
             DeltaTime = deltaTime
         };
 

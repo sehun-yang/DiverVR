@@ -51,6 +51,11 @@ public abstract class RenderGroup : IDisposable
         return newIndex;
     }
 
+    public virtual void SetEntityData(int index)
+    {
+        
+    }
+
     public void Dispose()
     {
         DataContainer.ClearAll();

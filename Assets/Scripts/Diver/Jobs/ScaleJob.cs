@@ -7,14 +7,14 @@ using Unity.Mathematics;
 public struct ScaleJob : IJobParallelFor
 {
     public NativeArray<EnemyArcheType> Enemies;
-    [ReadOnly] public float TargetScale;
-    [ReadOnly] public float ScaleSpeed;
+    [ReadOnly] public NativeArray<ScaleArcheType> Scales;
     [ReadOnly] public float DeltaTime;
 
     public void Execute(int index)
     {
         var enemy = Enemies[index];
-        enemy.Scale = math.min(TargetScale, enemy.Scale + ScaleSpeed * DeltaTime);
+        var scaleArcheType = Scales[index];
+        enemy.Scale = math.min(scaleArcheType.TargetScale, enemy.Scale + scaleArcheType.ScaleSpeed * DeltaTime);
         Enemies[index] = enemy;
     }
 }

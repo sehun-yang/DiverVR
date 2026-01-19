@@ -279,6 +279,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         };
 
         int index = group.AddEnemy();
+        group.SetEntityData(index);
         group.DataContainer.SetEntityData(ref enemy, index);
     }
 

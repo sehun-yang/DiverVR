@@ -65,4 +65,14 @@ public static class NativeArrayExpanders
         }
         return newArray;
     }
+    public static NativeArray<ScaleArcheType> ExpandNativeArray(this NativeArray<ScaleArcheType> old, int newCapacity)
+    {
+        var newArray = new NativeArray<ScaleArcheType>(newCapacity, Allocator.Persistent);
+        if (old.IsCreated && old.Length > 0)
+        {
+            NativeArray<ScaleArcheType>.Copy(old, newArray, math.min(old.Length, newCapacity));
+            old.Dispose();
+        }
+        return newArray;
+    }
 }
