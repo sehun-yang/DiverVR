@@ -24,10 +24,11 @@ public class OreChunkSpawner : EnemySpawnerBase
         return () => new OreChunkGroup(enemyTypeId);
     }
     
-    protected override void OnOneRemoved(ref EnemyArcheType instance)
+    protected override void OnOneRemoved(int entityId)
     {
-        base.OnOneRemoved(ref instance);
+        base.OnOneRemoved(entityId);
 
+        var instance = group.DataContainer.EnemyArcheTypeArray[entityId];
         var enemyData = EnemyManager.Instance.enemyDataAsset.EnemyData[enemyTypeId];
         SpawnNAt(oreId, orePerChunk, instance.Position, Quaternion.Euler(enemyData.RandomRotationMask.x * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.y * (UnityEngine.Random.value - 0.5f) * 2, enemyData.RandomRotationMask.z * (UnityEngine.Random.value - 0.5f) * 2), 1);
     }
@@ -81,10 +82,10 @@ public class OreChunkSpawner : EnemySpawnerBase
     {
         for (int i = 0; i < group.Count; i++)
         {
-            var enemy = group.Enemies[i];
+            var enemy = group.DataContainer.EnemyArcheTypeArray[i];
             if (enemy.SpawnerId != spawnerId) continue;
             enemy.Health = 0;
-            group.Enemies[i] = enemy;
+            group.DataContainer.EnemyArcheTypeArray[i] = enemy;
         }
     }
 #endif

@@ -10,8 +10,8 @@ public class OreChunkGroup : RenderGroup
     public override void Update(float deltaTime)
     {
         var handle = new JobHandle();
-        handle = EnemyGroupUpdater.ScaleTo(handle, Enemies, Count, deltaTime, 1, 2);
-        handle = EnemyGroupUpdater.InhaleDamage(handle, Enemies, Count, deltaTime, 30);
-        EnemyGroupUpdater.InhaleDamagePostProcess(handle, Enemies, Count, this);
+        handle = EnemyGroupUpdater.ScaleTo(handle, DataContainer.EnemyArcheTypeArray, Count, deltaTime, 1, 2);
+        handle = EnemyGroupUpdater.InhaleDamage(handle, DataContainer.EnemyArcheTypeArray, Count, deltaTime, 30);
+        EnemyGroupUpdater.InhaleDamagePostProcess(handle, DataContainer.EnemyArcheTypeArray, Count, this);
     }
 }

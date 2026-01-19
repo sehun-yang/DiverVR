@@ -7,7 +7,7 @@ public abstract class RenderGroup : IDisposable
 {
     public int EnemyTypeId;
 
-    public NativeArray<EnemyArcheType> Enemies;
+    public ArcheTypeArrayContainer DataContainer = new ();
     public NativeArray<Matrix4x4> Matrices;
     public NativeArray<float2> AnimationData;
 
@@ -22,7 +22,7 @@ public abstract class RenderGroup : IDisposable
     {
         EnemyTypeId = enemyTypeId;
         currentCapacity = InitialCapacity;
-        Enemies = new NativeArray<EnemyArcheType>(currentCapacity, Allocator.Persistent);
+        DataContainer.EnemyArcheTypeArray = new NativeArray<EnemyArcheType>(currentCapacity, Allocator.Persistent);
         Matrices = new NativeArray<Matrix4x4>(currentCapacity, Allocator.Persistent);
     }
 
@@ -32,39 +32,28 @@ public abstract class RenderGroup : IDisposable
 
         int newCapacity = ((required / CapacityGrowth) + 1) * CapacityGrowth;
 
-        Enemies = ExpandNativeArray(Enemies, newCapacity);
-        Matrices = ExpandNativeArray(Matrices, newCapacity);
+        DataContainer.ExpandArray(newCapacity);
+        Matrices = Matrices.ExpandNativeArray(newCapacity);
         currentCapacity = newCapacity;
 
         if(useAnimation)
         {
-            AnimationData = ExpandNativeArray(AnimationData, newCapacity);
+            AnimationData = AnimationData.ExpandNativeArray(newCapacity);
         }
     }
 
-    private NativeArray<T> ExpandNativeArray<T>(NativeArray<T> old, int newCapacity) where T : struct
+    public int AddEnemy()
     {
-        var newMatrices = new NativeArray<T>(newCapacity, Allocator.Persistent);
-
-        if (old.IsCreated && old.Length > 0)
-        {
-            NativeArray<T>.Copy(old, newMatrices, math.min(old.Length, newCapacity));
-            old.Dispose();
-        }
-
-        return newMatrices;
-    }
-
-    public void AddEnemy(EnemyArcheType enemy)
-    {
-        EnsureCapacity(Count + 1);
-        Enemies[Count] = enemy;
+        int newIndex = Count;
+        EnsureCapacity(newIndex + 1);
         Count++;
+
+        return newIndex;
     }
 
     public void Dispose()
     {
-        if (Enemies.IsCreated) Enemies.Dispose();
+        DataContainer.ClearAll();
         if (Matrices.IsCreated) Matrices.Dispose();
         if (AnimationData.IsCreated) AnimationData.Dispose();
     }

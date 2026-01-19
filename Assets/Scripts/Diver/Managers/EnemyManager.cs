@@ -72,21 +72,19 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
 
         var cullingJob = new FrustumCullingJob
         {
-            Enemies = group.Enemies,
+            Enemies = group.DataContainer.EnemyArcheTypeArray,
             FrustumPlanes = frustumPlanes
         };
         cullingJob.Schedule(count, 64).Complete();
 
         var enemyData = enemyDataAsset.EnemyData[group.EnemyTypeId];
-        group.EnsureCapacity(count);
-
         var visibleCountRef = new NativeReference<int>(Allocator.TempJob);
 
         if (enemyData.AnimationGPUSkinning)
         {
             var collectJob = new CollectRenderDataJob
             {
-                Enemies = group.Enemies,
+                Enemies = group.DataContainer.EnemyArcheTypeArray,
                 MaxCount = group.Count,
                 Matrices = group.Matrices,
                 AnimationData = group.AnimationData,
@@ -98,7 +96,7 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         {
             var collectJob = new CollectRenderDataJobNoAnimation
             {
-                Enemies = group.Enemies,
+                Enemies = group.DataContainer.EnemyArcheTypeArray,
                 MaxCount = group.Count,
                 Matrices = group.Matrices,
                 VisibleCount = visibleCountRef,
@@ -280,7 +278,8 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
             Health = 100,
         };
 
-        group.AddEnemy(enemy);
+        int index = group.AddEnemy();
+        group.DataContainer.SetEntityData(ref enemy, index);
     }
 
     public void RemoveRenderGroup(RenderGroup group)
@@ -289,11 +288,11 @@ public class EnemyManager : SingletonMonoBehaviour<EnemyManager>
         renderingGroups.Remove(group.EnemyTypeId);
     }
 
-    public void NotifyDead(uint spawnerId, ref EnemyArcheType instance)
+    public void NotifyDead(uint spawnerId, int entityId)
     {
         if (spawners.TryGetValue(spawnerId, out var spawner))
         {
-            spawner.OneRemoved(ref instance);
+            spawner.OneRemoved(entityId);
         }
     }
 

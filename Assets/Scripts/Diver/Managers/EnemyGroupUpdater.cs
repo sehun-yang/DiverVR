@@ -15,15 +15,14 @@ public static class EnemyGroupUpdater
         {
             if (isDead[readIndex])
             {
-                var enemy = group.Enemies[readIndex];
-                EnemyManager.Instance.NotifyDead(group.Enemies[readIndex].SpawnerId, ref enemy);
+                EnemyManager.Instance.NotifyDead(group.DataContainer.EnemyArcheTypeArray[readIndex].SpawnerId, readIndex);
                 deadCount++;
             }
             else
             {
                 if (writeIndex != readIndex)
                 {
-                    group.Enemies[writeIndex] = group.Enemies[readIndex];
+                    group.DataContainer.PullArray(writeIndex, readIndex);
                 }
                 writeIndex++;
             }
